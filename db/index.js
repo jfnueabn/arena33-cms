@@ -5,8 +5,13 @@ const pool = mysql.createPool({
   ...connection,
   database: dbName,
   charset: 'utf8mb4',
+  timezone: 'Z',
   connectionLimit: 10
 });
+
+// Store and read all times in UTC, whatever the MySQL server's own time zone is;
+// the admin UI converts them to the viewer's local time.
+pool.pool.on('connection', conn => conn.query("SET time_zone = '+00:00'"));
 
 // MySQL returns JSON columns parsed; MariaDB returns them as strings.
 const parseJson = v => (typeof v === 'string' ? JSON.parse(v) : v);

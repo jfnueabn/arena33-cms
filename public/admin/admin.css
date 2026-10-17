@@ -135,3 +135,26 @@ dialog input{border:1px solid var(--line);border-radius:8px;padding:8px 10px}
   .savebar{margin:16px -16px 0;padding:12px 16px}
 }
 .grid2 > .wide{grid-column:1/-1}
+
+/* Last login + login history */
+.last-login{border:0;background:var(--bg);color:var(--muted);font-size:12px;border-radius:999px;padding:4px 12px;cursor:pointer;max-width:420px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.last-login:hover{color:var(--text)}
+.last-login.warn{background:#fdecee;color:var(--danger)}
+.last-login:empty{display:none}
+.stat-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat-card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:14px}
+.stat-card b{display:block;font-size:22px}
+.stat-card span{color:var(--muted);font-size:12px}
+.stat-card.bad b{color:var(--danger)}
+.toolbar{display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+.table-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--panel)}
+.log-table{width:100%;border-collapse:collapse;min-width:640px;font-size:13px}
+.log-table th,.log-table td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.log-table th{background:#fafbfd;font-weight:600;color:var(--muted);font-size:12px}
+.log-table tr:last-child td{border-bottom:0}
+.log-table tr.fail td{background:#fff6f7}
+.pill{display:inline-block;border-radius:999px;padding:1px 9px;font-size:11px;font-weight:600}
+.pill.ok{background:#e3f6ea;color:var(--ok)}
+.pill.bad{background:#fdecee;color:var(--danger)}
+.ua{color:var(--muted);font-size:12px}
+@media (max-width:1000px){.last-login{display:none}}

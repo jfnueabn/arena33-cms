@@ -22,7 +22,7 @@ const { connection, dbName } = require('./config');
   await conn.query(`USE \`${dbName}\``);
 
   if (reset) {
-    await conn.query('DROP TABLE IF EXISTS section_revisions, sections, settings, admins');
+    await conn.query('DROP TABLE IF EXISTS admin_logins, section_revisions, sections, settings, admins');
     console.log('• Dropped existing CMS tables');
   }
 

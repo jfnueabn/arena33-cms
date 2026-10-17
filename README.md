@@ -29,7 +29,8 @@ Admin form (/admin) ──PUT /api/admin/…──▶ MySQL ──▶ GET / rend
 
 | Table | Purpose |
 |---|---|
-| `admins` | Admin users (bcrypt password hashes) |
+| `admins` | Admin users (bcrypt password hashes, `last_login_at`) |
+| `admin_logins` | Every login attempt — time, username, success/failure reason, IP, browser (kept 180 days) |
 | `settings` | Key/value site settings: SEO title, description, canonical, OG image, colours, GA ID |
 | `sections` | One row per homepage section: heading columns + `content` JSON, visibility, sort order |
 | `section_revisions` | Snapshot before every save (last 20 per section) for one-click restore |

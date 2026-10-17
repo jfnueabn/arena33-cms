@@ -124,26 +124,51 @@ app.get('/admin/login', (req, res) => {
   res.render('admin/login', { error: null, username: '' });
 });
 
+// Audit trail: every attempt is stored; rows older than 180 days are pruned.
+async function recordLogin(req, { adminId = null, username, success, reason }) {
+  try {
+    await db.pool.query(
+      'INSERT INTO admin_logins (admin_id, username, success, reason, ip, user_agent) VALUES (?, ?, ?, ?, ?, ?)',
+      [adminId, String(username).slice(0, 50), success ? 1 : 0, reason, String(req.ip || '').slice(0, 45), String(req.get('user-agent') || '').slice(0, 255)]
+    );
+    await db.pool.query('DELETE FROM admin_logins WHERE created_at < NOW() - INTERVAL 180 DAY');
+  } catch (err) {
+    console.error('Could not record login attempt:', err.message); // never block a login because logging failed
+  }
+}
+
 app.post('/admin/login', async (req, res, next) => {
   try {
     const ip = req.ip;
+    const { username = '', password = '' } = req.body;
     const rec = loginAttempts.get(ip);
     if (rec && rec.until > Date.now()) {
+      await recordLogin(req, { username, success: false, reason: 'locked' });
       return res.status(429).render('admin/login', { error: 'Too many attempts. Try again in a few minutes.', username: '' });
     }
-    const { username = '', password = '' } = req.body;
     const [rows] = await db.pool.query('SELECT id, username, password_hash FROM admins WHERE username = ?', [username]);
-    const ok = rows[0] && (await bcrypt.compare(password, rows[0].password_hash));
+    const admin = rows[0];
+    const ok = admin && (await bcrypt.compare(password, admin.password_hash));
     if (!ok) {
       const count = (rec?.count || 0) + 1;
       loginAttempts.set(ip, { count, until: count >= LOCK_AFTER ? Date.now() + LOCK_MS : 0 });
+      await recordLogin(req, { adminId: admin?.id, username, success: false, reason: admin ? 'wrong_password' : 'unknown_user' });
       return res.status(401).render('admin/login', { error: 'Wrong username or password.', username });
     }
     loginAttempts.delete(ip);
-    await db.pool.query('UPDATE admins SET last_login_at = NOW() WHERE id = ?', [rows[0].id]);
+
+    // Remember the previous successful login so the dashboard can show "Last login: …".
+    const [[previous]] = await db.pool.query(
+      'SELECT created_at, ip, user_agent FROM admin_logins WHERE admin_id = ? AND success = 1 ORDER BY id DESC LIMIT 1',
+      [admin.id]
+    );
+    await db.pool.query('UPDATE admins SET last_login_at = NOW() WHERE id = ?', [admin.id]);
+    await recordLogin(req, { adminId: admin.id, username: admin.username, success: true, reason: 'ok' });
+
     req.session.regenerate(err => {
       if (err) return next(err);
-      req.session.admin = { id: rows[0].id, username: rows[0].username };
+      req.session.admin = { id: admin.id, username: admin.username };
+      req.session.previousLogin = previous ? { at: previous.created_at, ip: previous.ip, user_agent: previous.user_agent } : null;
       res.redirect('/admin');
     });
   } catch (err) { next(err); }
@@ -160,12 +185,37 @@ api.use(requireAdminApi);
 api.get('/bootstrap', async (req, res, next) => {
   try {
     const [settings, sections] = await Promise.all([db.getSettings(), db.getSections()]);
+    const [[fails]] = await db.pool.query(
+      `SELECT COUNT(*) AS n FROM admin_logins
+       WHERE success = 0 AND created_at > COALESCE(?, NOW() - INTERVAL 30 DAY)`,
+      [req.session.previousLogin ? new Date(req.session.previousLogin.at) : null]
+    );
     res.json({
       admin: req.session.admin,
+      previousLogin: req.session.previousLogin || null,
+      failedSincePrevious: fails.n,
       settings,
       sections,
       defaults: Object.fromEntries(defaults.sections.map(s => [s.section_key, s.content]))
     });
+  } catch (err) { next(err); }
+});
+
+api.get('/logins', async (req, res, next) => {
+  try {
+    const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 100, 1), 500);
+    const onlyFailed = req.query.failed === '1';
+    const [rows] = await db.pool.query(
+      `SELECT id, username, success, reason, ip, user_agent, created_at FROM admin_logins
+       ${onlyFailed ? 'WHERE success = 0' : ''} ORDER BY id DESC LIMIT ?`,
+      [limit]
+    );
+    const [[stats]] = await db.pool.query(
+      `SELECT COUNT(*) AS total, COALESCE(SUM(success), 0) AS ok,
+              COALESCE(SUM(success = 0 AND created_at > NOW() - INTERVAL 1 DAY), 0) AS failed24h
+       FROM admin_logins`
+    );
+    res.json({ logins: rows.map(r => ({ ...r, success: !!r.success })), stats });
   } catch (err) { next(err); }
 });
 

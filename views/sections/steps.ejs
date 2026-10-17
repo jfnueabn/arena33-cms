@@ -1,0 +1,10 @@
+<section id="<%= c.anchor || 'how' %>" class="steps" aria-labelledby="steps-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <ol class="grid" style="list-style:none">
+      <% c.items.forEach(it => { %>
+        <li class="card step reveal"><h3><%= it.title %></h3><p><%= it.description %></p></li>
+      <% }) %>
+    </ol>
+  </div>
+</section>

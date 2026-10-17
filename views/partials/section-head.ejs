@@ -1,0 +1,7 @@
+<% if (s.eyebrow || s.title || s.subtitle) { %>
+<div class="sec-head reveal">
+  <% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %>
+  <% if (s.title) { %><h2 id="<%= s.section_key %>-title"><%= s.title %></h2><% } %>
+  <% if (s.subtitle) { %><p><%= s.subtitle %></p><% } %>
+</div>
+<% } %>

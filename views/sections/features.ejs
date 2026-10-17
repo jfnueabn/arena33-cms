@@ -1,0 +1,10 @@
+<section id="features" class="features" aria-labelledby="features-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="grid">
+      <% c.items.forEach(it => { %>
+        <article class="card feature reveal"><div class="ico" aria-hidden="true"><%= it.icon %></div><h3><%= it.title %></h3><p><%= it.description %></p></article>
+      <% }) %>
+    </div>
+  </div>
+</section>

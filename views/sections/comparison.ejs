@@ -1,0 +1,18 @@
+<%
+  const cls = v => (/^✓/.test(v) ? 'yes' : /^✕/.test(v) ? 'no' : '');
+%>
+<section aria-labelledby="comparison-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="table-wrap reveal">
+      <table>
+        <thead><tr><th scope="col">Feature</th><th scope="col" class="us"><%= c.our_label %></th><th scope="col"><%= c.other_label %></th></tr></thead>
+        <tbody>
+          <% c.rows.forEach(r => { %>
+            <tr><td><%= r.feature %></td><td class="us <%= cls(r.ours) || 'yes' %>"><%= r.ours %></td><td class="<%= cls(r.others) %>"><%= r.others %></td></tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

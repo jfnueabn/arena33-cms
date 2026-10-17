@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Dashboard · Arena33 Admin</title>
+  <link rel="stylesheet" href="/admin/admin.css?v=2">
+</head>
+<body>
+  <header class="topbar">
+    <button class="icon-btn only-mobile" id="sideToggle" aria-label="Toggle menu">☰</button>
+    <div class="brand">Arena<span>33</span> <small>Admin</small></div>
+    <div class="top-actions">
+      <button class="btn ghost" id="togglePreview">Hide preview</button>
+      <a class="btn ghost" href="/" target="_blank" rel="noopener">View site ↗</a>
+      <button class="btn ghost" id="pwBtn">Change password</button>
+      <form method="post" action="/admin/logout"><button class="btn ghost" type="submit">Log out (<%= admin.username %>)</button></form>
+    </div>
+  </header>
+
+  <div class="layout" id="layout">
+    <aside class="sidebar" id="sidebar">
+      <p class="side-label">General</p>
+      <button class="side-item" data-open="settings">⚙️ SEO &amp; site settings</button>
+      <p class="side-label">Layout</p>
+      <div id="fixedList"></div>
+      <p class="side-label">Homepage sections <span class="hint">drag or use arrows to reorder</span></p>
+      <ol id="sectionList" class="section-list"></ol>
+    </aside>
+
+    <main class="editor" id="editor">
+      <div class="empty">Loading…</div>
+    </main>
+
+    <section class="preview" id="previewPane" aria-label="Live preview">
+      <div class="preview-bar">Live preview <span class="muted small">updates after you save</span></div>
+      <iframe id="preview" src="/" title="Homepage preview"></iframe>
+    </section>
+  </div>
+
+  <dialog id="pwDialog">
+    <form id="pwForm">
+      <h2>Change password</h2>
+      <label>Current password <input type="password" name="current" autocomplete="current-password" required></label>
+      <label>New password (min 8) <input type="password" name="next" minlength="8" autocomplete="new-password" required></label>
+      <p class="form-error" id="pwError"></p>
+      <div class="row-end">
+        <button type="button" class="btn ghost" id="pwCancel">Cancel</button>
+        <button type="submit" class="btn primary">Update</button>
+      </div>
+    </form>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="/admin/admin.js?v=2"></script>
+</body>
+</html>

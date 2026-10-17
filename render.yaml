@@ -1,0 +1,36 @@
+# Render Blueprint: New → Blueprint → pick this repo.
+# MySQL is hosted outside Render (e.g. Aiven); fill in the DB_* values when prompted.
+services:
+  - type: web
+    name: arena33
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    # db:setup is idempotent: creates tables/seed data only when missing.
+    startCommand: npm run db:setup && npm start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22.12.0
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: DB_SSL
+        value: "true"
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_NAME
+        value: arena33
+      - key: DB_CA_CERT
+        sync: false
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false

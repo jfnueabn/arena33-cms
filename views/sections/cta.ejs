@@ -1,0 +1,9 @@
+<section id="<%= c.anchor || 'signup' %>" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="cta reveal">
+      <h2 id="cta-title"><%= s.title %></h2>
+      <p><%= c.description %></p>
+      <% if (c.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a><% } %>
+    </div>
+  </div>
+</section>

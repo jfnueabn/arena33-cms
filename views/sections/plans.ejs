@@ -1,0 +1,16 @@
+<section id="plans" class="plans" aria-labelledby="plans-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="grid">
+      <% c.items.forEach(p => { %>
+        <article class="card plan reveal<%= p.featured ? ' featured' : '' %>">
+          <% if (p.badge) { %><span class="badge"><%= p.badge %></span><% } %>
+          <h3><%= p.name %></h3>
+          <div class="price"><%= p.price %> <small><%= p.period %></small></div>
+          <ul><% p.features.forEach(f => { %><li class="<%= f.included ? '' : 'off' %>"><%= f.text %></li><% }) %></ul>
+          <a class="btn <%= p.featured ? 'btn-primary' : 'btn-ghost' %>" href="<%= safeUrl(p.button.url) %>"><%= p.button.text %></a>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+</section>

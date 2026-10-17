@@ -1,0 +1,15 @@
+<section class="testi" aria-labelledby="testimonials-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="grid">
+      <% c.items.forEach(t => { const r = Math.max(0, Math.min(5, Math.round(Number(t.rating) || 0))); %>
+        <figure class="card reveal">
+          <div class="stars" aria-label="<%= r %> out of 5 stars"><%= '★'.repeat(r) + '☆'.repeat(5 - r) %></div>
+          <blockquote>"<%= t.quote %>"</blockquote>
+          <figcaption><cite><%= t.name %><small><%= t.location %></small></cite></figcaption>
+        </figure>
+      <% }) %>
+    </div>
+    <% if (c.note) { %><p class="note"><%= c.note %></p><% } %>
+  </div>
+</section>

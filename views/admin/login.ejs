@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Login · Arena33</title>
+  <link rel="stylesheet" href="/admin/admin.css?v=2">
+</head>
+<body class="login-page">
+  <form class="login-card" method="post" action="/admin/login">
+    <div class="brand">Arena<span>33</span> <small>Admin</small></div>
+    <h1>Sign in</h1>
+    <p class="muted">Manage the homepage content.</p>
+    <% if (error) { %><div class="alert"><%= error %></div><% } %>
+    <label>Username
+      <input name="username" value="<%= username %>" autocomplete="username" required autofocus>
+    </label>
+    <label>Password
+      <input name="password" type="password" autocomplete="current-password" required>
+    </label>
+    <button class="btn primary" type="submit">Sign in</button>
+    <a class="muted small" href="/">← Back to website</a>
+  </form>
+</body>
+</html>

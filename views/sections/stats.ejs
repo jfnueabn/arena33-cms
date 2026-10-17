@@ -1,0 +1,7 @@
+<section class="stats" aria-label="Platform statistics">
+  <div class="container grid">
+    <% c.items.forEach(it => { %>
+      <div class="stat"><b data-count="<%= Number(it.value) || 0 %>" data-suffix="<%= it.suffix %>"><%= (Number(it.value) || 0).toLocaleString('en-MY') %><%= it.suffix %></b><span><%= it.label %></span></div>
+    <% }) %>
+  </div>
+</section>

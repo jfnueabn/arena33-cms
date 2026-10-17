@@ -1,0 +1,17 @@
+<%
+  const prizes = c.prizes.length ? c.prizes : [{ label: 'Try Again', color: '#6366f1' }];
+  const seg = 360 / prizes.length;
+  const gradient = prizes
+    .map((p, i) => `${/^#[0-9a-f]{3,8}$/i.test(p.color) ? p.color : '#6366f1'} ${i * seg}deg ${(i + 1) * seg}deg`)
+    .join(',');
+%>
+<section aria-labelledby="wheel-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="wheel-wrap reveal">
+      <div class="wheel-box"><div class="pointer" aria-hidden="true">▼</div><div class="wheel" id="wheel" style="background:conic-gradient(<%= gradient %>)"></div></div>
+      <button class="btn btn-primary" id="spinBtn" data-prizes="<%= JSON.stringify(prizes.map(p => p.label)) %>"><%= c.button_text %></button>
+      <p id="spinResult" aria-live="polite"></p>
+    </div>
+  </div>
+</section>

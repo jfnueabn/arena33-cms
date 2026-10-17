@@ -1,0 +1,21 @@
+<section class="hero" id="top">
+  <div class="container">
+    <div>
+      <% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %>
+      <h1><%- highlight(s.title, c.highlight) %></h1>
+      <p><%= c.description %></p>
+      <div class="hero-btns">
+        <% if (c.primary_button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.primary_button.url) %>"><%= c.primary_button.text %></a><% } %>
+        <% if (c.secondary_button.text) { %><a class="btn btn-ghost" href="<%= safeUrl(c.secondary_button.url) %>"><%= c.secondary_button.text %></a><% } %>
+      </div>
+    </div>
+    <div class="hero-art">
+      <% if (c.image) { %>
+        <img src="<%= safeUrl(c.image) %>" alt="<%= c.image_alt %>" width="600" height="600" fetchpriority="high">
+      <% } else { %>
+        <div class="ball" role="img" aria-label="<%= c.image_alt %>">⚽</div>
+      <% } %>
+      <% c.tags.forEach((t, i) => { %><div class="tag t<%= i % 2 + 1 %>"><%= t %></div><% }) %>
+    </div>
+  </div>
+</section>

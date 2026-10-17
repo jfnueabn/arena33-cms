@@ -1,0 +1,14 @@
+<section class="countdown" aria-labelledby="countdown-title">
+  <div class="container reveal">
+    <% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %>
+    <h2 id="countdown-title"><%= s.title %></h2>
+    <p style="color:var(--muted)"><%= c.description %></p>
+    <div class="timer" data-target="<%= c.target_date %>">
+      <div><b data-unit="d">00</b><small>DAYS</small></div>
+      <div><b data-unit="h">00</b><small>HOURS</small></div>
+      <div><b data-unit="m">00</b><small>MINS</small></div>
+      <div><b data-unit="s">00</b><small>SECS</small></div>
+    </div>
+    <% if (c.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a><% } %>
+  </div>
+</section>

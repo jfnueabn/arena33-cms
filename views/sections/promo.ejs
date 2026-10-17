@@ -1,0 +1,15 @@
+<%
+  const hex = v => (/^#[0-9a-f]{3,8}$/i.test(v) ? v : '#7c3aed');
+%>
+<section aria-labelledby="promo-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="promo reveal" style="background:linear-gradient(90deg,<%= hex(c.color_from) %>,<%= hex(c.color_to) %>)">
+      <div>
+        <h3><%= c.banner_title %></h3>
+        <p><%= c.banner_text %></p>
+      </div>
+      <% if (c.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a><% } %>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,15 @@
+<section id="about" aria-labelledby="about-title">
+  <div class="container two-col">
+    <div class="reveal">
+      <% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %>
+      <h2 id="about-title"><%= s.title %></h2>
+      <% c.paragraphs.forEach(p => { %><p><%= p %></p><% }) %>
+      <% if (c.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a><% } %>
+    </div>
+    <div class="card reveal">
+      <h3><%= c.card_title %></h3>
+      <ul class="pill-list"><% c.tags.forEach(t => { %><li><%= t %></li><% }) %></ul>
+      <p style="color:var(--muted)"><%= c.card_note %></p>
+    </div>
+  </div>
+</section>

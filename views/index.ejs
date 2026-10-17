@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="<%= settings.language || 'en-MY' %>">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary SEO (all values come from the `settings` table) -->
+  <title><%= settings.seo_title %></title>
+  <meta name="description" content="<%= settings.seo_description %>">
+  <% if (settings.seo_keywords) { %><meta name="keywords" content="<%= settings.seo_keywords %>"><% } %>
+  <meta name="robots" content="<%= settings.robots_index === '1' ? 'index, follow' : 'noindex, nofollow' %>">
+  <link rel="canonical" href="<%= canonical %>">
+  <meta name="theme-color" content="#1e3a8a">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="<%= settings.site_name %>">
+  <meta property="og:title" content="<%= settings.seo_title %>">
+  <meta property="og:description" content="<%= settings.seo_description %>">
+  <meta property="og:url" content="<%= canonical %>">
+  <% if (settings.og_image) { %><meta property="og:image" content="<%= new URL(settings.og_image, canonical).href %>"><% } %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="<%= settings.seo_title %>">
+  <meta name="twitter:description" content="<%= settings.seo_description %>">
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚽</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <% const hex = (v, d) => (/^#[0-9a-f]{3,8}$/i.test(v || '') ? v : d); %>
+  <style>:root{--accent:<%= hex(settings.accent_color, '#facc15') %>;--accent2:<%= hex(settings.secondary_color, '#22d3ee') %>}</style>
+
+  <!-- Structured data, generated from the database -->
+  <script type="application/ld+json"><%- JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Organization', '@id': canonical + '#org', name: settings.site_name, url: canonical, email: footer && footer.content.contact_email, areaServed: 'MY' },
+      { '@type': 'WebSite', '@id': canonical + '#website', url: canonical, name: settings.site_name, inLanguage: settings.language, publisher: { '@id': canonical + '#org' } }
+    ].concat(faqItems.length ? [{
+      '@type': 'FAQPage',
+      mainEntity: faqItems.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } }))
+    }] : [])
+  }).replace(/</g, '\\u003c') %></script>
+
+  <% if (settings.ga_id && /^G-[A-Z0-9]+$/.test(settings.ga_id)) { %>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<%= settings.ga_id %>"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','<%= settings.ga_id %>');</script>
+  <% } %>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <%- include('partials/header', { h: header.content }) %>
+
+  <main id="main">
+    <% sections.forEach(s => { %>
+      <%- include('sections/' + s.section_key, { s, c: s.content }) %>
+    <% }) %>
+  </main>
+
+  <%- include('partials/footer', { f: footer.content }) %>
+
+  <script src="/js/main.js" defer></script>
+</body>
+</html>

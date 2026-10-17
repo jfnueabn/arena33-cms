@@ -1,0 +1,10 @@
+<section id="faq" aria-labelledby="faq-title">
+  <div class="container">
+    <%- include('../partials/section-head', { s }) %>
+    <div class="faq reveal">
+      <% c.items.forEach((q, i) => { %>
+        <details<%= i === 0 ? ' open' : '' %>><summary><%= q.question %></summary><p><%= q.answer %></p></details>
+      <% }) %>
+    </div>
+  </div>
+</section>

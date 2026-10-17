@@ -1,0 +1,18 @@
+<footer>
+  <div class="container">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="/"><%= header.content.logo_text %><span><%= header.content.logo_accent %></span></a>
+        <p style="margin-top:10px"><%= f.about_text %></p>
+        <% if (f.contact_email) { %><p style="margin-top:10px">Contact: <a href="mailto:<%= f.contact_email %>"><%= f.contact_email %></a></p><% } %>
+      </div>
+      <% f.columns.forEach(col => { %>
+      <nav aria-label="<%= col.heading %>">
+        <h4><%= col.heading %></h4>
+        <ul><% col.links.forEach(l => { %><li><a href="<%= safeUrl(l.url) %>"><%= l.label %></a></li><% }) %></ul>
+      </nav>
+      <% }) %>
+    </div>
+    <p class="copy"><%= f.copyright.replace('{year}', year) %></p>
+  </div>
+</footer>

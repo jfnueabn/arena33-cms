@@ -67,9 +67,13 @@ Render has no managed MySQL, so the database runs on Aiven's free MySQL plan.
 2. **Render:** *New → Blueprint* → connect this GitHub repo. Render reads `render.yaml` and asks for:
    - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` — from Aiven
    - `DB_CA_CERT` — paste the full contents of the CA certificate file
-   - `ADMIN_PASSWORD` — the password for the `/admin` login (min 8 characters)
+   - `ADMIN_PASSWORD` — the password for the `/admin` login (min 6 characters)
 3. Deploy. On start, `npm run db:setup` creates the `arena33` database, tables, content and admin.
 4. Open `https://<your-app>.onrender.com/admin`, log in, and check **SEO & site settings → Canonical URL**.
+
+**Changing the admin password later:** use *Change password* inside the admin, or change `ADMIN_PASSWORD`
+in Render's Environment tab, add `ADMIN_RESET_PASSWORD=true`, redeploy once, then remove that variable
+(otherwise every restart resets the password). Locally: edit `.env`, then run `npm run admin:password`.
 
 Notes for the free plan: the app sleeps after ~15 minutes idle (first visit takes ~30–60 s to wake),
 and the disk is temporary, so **uploaded images are lost on each redeploy** — use image URLs

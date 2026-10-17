@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Dashboard · Arena33 Admin</title>
-  <link rel="stylesheet" href="/admin/admin.css?v=2">
+  <link rel="stylesheet" href="/admin/admin.css?v=3">
 </head>
 <body>
   <header class="topbar">
@@ -43,7 +43,7 @@
     <form id="pwForm">
       <h2>Change password</h2>
       <label>Current password <input type="password" name="current" autocomplete="current-password" required></label>
-      <label>New password (min 8) <input type="password" name="next" minlength="8" autocomplete="new-password" required></label>
+      <label>New password (min 6) <input type="password" name="next" minlength="6" autocomplete="new-password" required></label>
       <p class="form-error" id="pwError"></p>
       <div class="row-end">
         <button type="button" class="btn ghost" id="pwCancel">Cancel</button>
@@ -53,6 +53,6 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="/admin/admin.js?v=2"></script>
+  <script src="/admin/admin.js?v=3"></script>
 </body>
 </html>

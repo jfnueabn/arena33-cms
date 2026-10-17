@@ -5,6 +5,8 @@ services:
     name: arena33
     runtime: node
     plan: free
+    # Same part of the world as the Aiven database (Asia Pacific) for faster queries.
+    region: singapore
     buildCommand: npm ci
     # db:setup is idempotent: creates tables/seed data only when missing.
     startCommand: npm run db:setup && npm start

@@ -1,12 +1,18 @@
 // Shared MySQL connection settings (app pool, session store and setup script).
-// Hosted MySQL such as Aiven requires SSL: set DB_SSL=true and paste the
-// provider's CA certificate into DB_CA_CERT so the server identity is verified.
+// Hosted MySQL such as Aiven requires SSL: set DB_SSL=true and give the provider's
+// CA certificate so the server identity is verified — either its contents in
+// DB_CA_CERT (handy on Render) or a file path in DB_CA_CERT_PATH (handy locally).
+const fs = require('fs');
+const path = require('path');
 
 function sslOptions() {
   if (process.env.DB_SSL !== 'true') return undefined;
-  const ca = process.env.DB_CA_CERT;
+  let ca = process.env.DB_CA_CERT;
+  if (!ca && process.env.DB_CA_CERT_PATH) {
+    ca = fs.readFileSync(path.resolve(__dirname, '..', process.env.DB_CA_CERT_PATH), 'utf8');
+  }
   if (ca) return { ca: ca.replace(/\\n/g, '\n'), rejectUnauthorized: true };
-  console.warn('⚠ DB_SSL is on but DB_CA_CERT is empty: the connection is encrypted but the server certificate is not verified.');
+  console.warn('⚠ DB_SSL is on but no CA certificate is set: the connection is encrypted but the server certificate is not verified.');
   return { rejectUnauthorized: false };
 }
 

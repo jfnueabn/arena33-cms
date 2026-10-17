@@ -2,7 +2,7 @@
 //   npm run db:setup          -> create what is missing, keep existing data
 //   npm run db:setup -- --reset -> drop CMS tables and reseed from db/defaults.js
 //   npm run admin:password    -> set the admin's password to ADMIN_PASSWORD
-require('dotenv').config();
+require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
 const fs = require('fs');
 const path = require('path');
 const mysql = require('mysql2/promise');

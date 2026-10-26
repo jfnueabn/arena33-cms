@@ -181,7 +181,7 @@ function openItem(target) {
   if (state.current === target) return;
   if (state.dirty && !confirm('You have unsaved changes. Discard them?')) return;
   state.current = target;
-  state.draft = target === 'settings' ? clone(state.settings) : target === 'logins' ? null : clone(sectionByKey(target));
+  state.draft = target === 'settings' ? clone(state.settings) : clone(sectionByKey(target));
   state.dirty = false;
   state.open.clear();
   history.replaceState(null, '', '#' + target);
@@ -193,7 +193,6 @@ function openItem(target) {
 
 function renderEditor() {
   const scroll = editor.scrollTop;
-  if (state.current === 'logins') return loginsView();
   editor.replaceChildren(state.current === 'settings' ? settingsView() : sectionView());
   if (state.current === 'settings') updateSerp();
   editor.scrollTop = scroll;
@@ -537,72 +536,6 @@ async function restore(id) {
   } catch (e) { toast(e.message, true); }
 }
 
-// ---------- Login history ----------
-const fmtTime = t => new Date(t).toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-const REASONS = { ok: 'Signed in', wrong_password: 'Wrong password', unknown_user: 'Unknown username', locked: 'Blocked (too many attempts)' };
-
-// Short, readable browser + OS from a user-agent string.
-function describeUA(ua = '') {
-  const browser = /Edg\//.test(ua) ? 'Edge' : /OPR\//.test(ua) ? 'Opera' : /Chrome\//.test(ua) ? 'Chrome'
-    : /Firefox\//.test(ua) ? 'Firefox' : /Safari\//.test(ua) ? 'Safari' : /node|curl|undici/i.test(ua) ? 'Script' : 'Unknown browser';
-  const os = /Windows/.test(ua) ? 'Windows' : /Android/.test(ua) ? 'Android' : /iPhone|iPad/.test(ua) ? 'iOS'
-    : /Mac OS X/.test(ua) ? 'macOS' : /Linux/.test(ua) ? 'Linux' : '';
-  return os ? `${browser} on ${os}` : browser;
-}
-
-function showLastLogin(prev, failed) {
-  const el = $('#lastLogin');
-  if (!prev) {
-    el.textContent = 'First login recorded';
-  } else {
-    el.textContent = `Last login: ${fmtTime(prev.at)} · ${describeUA(prev.user_agent)}`;
-  }
-  if (failed > 0) {
-    el.textContent += ` · ⚠ ${failed} failed attempt${failed > 1 ? 's' : ''} ${prev ? 'since then' : 'in the last 30 days'}`;
-    el.classList.add('warn');
-  }
-}
-
-async function loginsView(onlyFailed = false) {
-  const tbody = h('tbody', {}, h('tr', {}, h('td', { colspan: 5, class: 'muted' }, 'Loading…')));
-  const stats = h('div', { class: 'stat-row' });
-  const filter = h('label', { class: 'field check', style: 'margin:0' },
-    h('input', { type: 'checkbox', checked: onlyFailed, onchange: e => loginsView(e.target.checked) }),
-    h('span', {}, 'Show failed attempts only'));
-
-  editor.replaceChildren(h('div', {},
-    head('Login history', null),
-    h('p', { class: 'muted', style: 'margin:-8px 0 16px' }, 'Every sign-in attempt to this admin, newest first. Times are shown in your local time zone. Kept for 180 days.'),
-    stats,
-    h('div', { class: 'toolbar' }, filter, h('button', { class: 'btn sm', onclick: () => loginsView(onlyFailed) }, '↻ Refresh')),
-    h('div', { class: 'table-scroll' },
-      h('table', { class: 'log-table' },
-        h('thead', {}, h('tr', {}, ...['Time', 'Result', 'Username', 'IP address', 'Device'].map(t => h('th', {}, t)))),
-        tbody))
-  ));
-  // The editor head shows a "Saved" badge meant for forms; it doesn't apply here.
-  $('#dirtyBadge')?.remove();
-
-  try {
-    const { logins, stats: s } = await api('GET', '/logins?limit=200' + (onlyFailed ? '&failed=1' : ''));
-    if (state.current !== 'logins') return;
-    stats.replaceChildren(
-      h('div', { class: 'stat-card' }, h('b', {}, s.total), h('span', {}, 'Attempts recorded')),
-      h('div', { class: 'stat-card' }, h('b', {}, s.ok), h('span', {}, 'Successful logins')),
-      h('div', { class: 'stat-card' + (s.failed24h > 0 ? ' bad' : '') }, h('b', {}, s.failed24h), h('span', {}, 'Failed in last 24 hours'))
-    );
-    tbody.replaceChildren(...(logins.length ? logins.map(l => h('tr', { class: l.success ? '' : 'fail' },
-      h('td', {}, fmtTime(l.created_at)),
-      h('td', {}, h('span', { class: 'pill ' + (l.success ? 'ok' : 'bad') }, REASONS[l.reason] || l.reason)),
-      h('td', {}, l.username || '—'),
-      h('td', {}, l.ip || '—'),
-      h('td', {}, describeUA(l.user_agent), h('div', { class: 'ua', title: l.user_agent }, (l.user_agent || '').slice(0, 60) + ((l.user_agent || '').length > 60 ? '…' : '')))
-    )) : [h('tr', {}, h('td', { colspan: 5, class: 'muted' }, onlyFailed ? 'No failed attempts. 👍' : 'No logins recorded yet.'))]));
-  } catch (e) {
-    tbody.replaceChildren(h('tr', {}, h('td', { colspan: 5, class: 'form-error' }, e.message)));
-  }
-}
-
 // ---------- Boot ----------
 document.querySelectorAll('[data-open]').forEach(b => b.addEventListener('click', () => openItem(b.dataset.open)));
 $('#sideToggle').addEventListener('click', () => $('#sidebar').classList.toggle('open'));
@@ -646,9 +579,8 @@ window.addEventListener('beforeunload', e => {
   try {
     const data = await api('GET', '/bootstrap');
     Object.assign(state, { admin: data.admin, settings: data.settings, sections: data.sections, defaults: data.defaults });
-    showLastLogin(data.previousLogin, data.failedSincePrevious);
     const wanted = location.hash.slice(1);
-    openItem(wanted === 'settings' || wanted === 'logins' || sectionByKey(wanted) ? wanted : 'hero');
+    openItem(wanted === 'settings' || sectionByKey(wanted) ? wanted : 'hero');
   } catch (e) {
     editor.replaceChildren(h('div', { class: 'empty' }, 'Could not load content: ' + e.message));
   }

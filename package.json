@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "description": "SEO landing page with an admin CMS (Express + MySQL)",
-  "main": "server.js",
+  "main": "backend/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js",
-    "db:setup": "node db/setup.js",
-    "db:reset": "node db/setup.js --reset",
-    "admin:password": "node db/setup.js --reset-admin-password"
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js",
+    "db:setup": "node backend/db/setup.js",
+    "db:reset": "node backend/db/setup.js --reset",
+    "admin:password": "node backend/db/setup.js --reset-admin-password"
   },
   "engines": {
     "node": ">=18"

@@ -9,7 +9,7 @@ function sslOptions() {
   if (process.env.DB_SSL !== 'true') return undefined;
   let ca = process.env.DB_CA_CERT;
   if (!ca && process.env.DB_CA_CERT_PATH) {
-    ca = fs.readFileSync(path.resolve(__dirname, '..', process.env.DB_CA_CERT_PATH), 'utf8');
+    ca = fs.readFileSync(path.resolve(__dirname, '..', '..', process.env.DB_CA_CERT_PATH), 'utf8');
   }
   if (ca) return { ca: ca.replace(/\\n/g, '\n'), rejectUnauthorized: true };
   console.warn('⚠ DB_SSL is on but no CA certificate is set: the connection is encrypted but the server certificate is not verified.');

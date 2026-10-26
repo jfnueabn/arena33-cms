@@ -12,7 +12,39 @@ npm run db:setup          # creates the database, tables, default content and fi
 npm start                 # http://localhost:3000   admin: http://localhost:3000/admin
 ```
 
-`npm run db:reset` drops the CMS tables and reseeds from `db/defaults.js`.
+`npm run db:reset` drops the CMS tables and reseeds from `backend/db/defaults.js`.
+
+## Project structure
+
+```text
+arena33-cms/
+├── backend/
+│   ├── server.js       # Starts the HTTP server
+│   ├── app.js          # Express configuration and route registration
+│   ├── routes/         # Public, admin page and admin API endpoint definitions
+│   ├── controllers/    # Request handlers grouped by feature
+│   ├── middleware/     # Authentication, uploads and error handling
+│   ├── services/       # Section revision operations
+│   ├── config/         # Session configuration
+│   ├── utils/          # Shared view and URL helpers
+│   └── db/             # MySQL connection, schema, setup and default content
+├── views/              # EJS page templates
+├── public/             # Browser JavaScript, CSS and uploaded images
+├── package.json        # Shared dependencies and commands
+├── render.yaml         # Deployment configuration
+└── .env                # Local environment settings (not committed)
+```
+
+Run all npm commands from the project root. The backend loads `.env` and relative
+`DB_CA_CERT_PATH` values from the project root, regardless of the working directory.
+New server-side functionality belongs in `backend/`; browser assets belong in
+`public/` and page templates in `views/`.
+
+To add an API feature, put its request handlers in `backend/controllers/` and
+register its endpoints in `backend/routes/admin-api.js`. All routes in that router
+share the admin authentication and CSRF middleware. For a separate feature router,
+mount it in `backend/app.js` and apply the appropriate authentication middleware.
+Run backend route checks with `node --test backend/tests/routes.test.js`.
 
 ## How it works
 
@@ -23,14 +55,13 @@ Admin form (/admin) ──PUT /api/admin/…──▶ MySQL ──▶ GET / rend
 - **Homepage (`/`)** is rendered on the server, so search engines receive complete HTML —
   title, meta, Open Graph and JSON-LD all come from the database.
 - **Admin (`/admin`)** is a login-protected dashboard. Each section's form is generated from its
-  JSON content, so adding a field in `db/defaults.js` gives it an input automatically.
+  JSON content, so adding a field in `backend/db/defaults.js` gives it an input automatically.
 
 ## Database
 
 | Table | Purpose |
 |---|---|
-| `admins` | Admin users (bcrypt password hashes, `last_login_at`) |
-| `admin_logins` | Every login attempt — time, username, success/failure reason, IP, browser (kept 180 days) |
+| `admins` | Admin users (bcrypt password hashes) |
 | `settings` | Key/value site settings: SEO title, description, canonical, OG image, colours, GA ID |
 | `sections` | One row per homepage section: heading columns + `content` JSON, visibility, sort order |
 | `section_revisions` | Snapshot before every save (last 20 per section) for one-click restore |

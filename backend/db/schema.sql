@@ -4,23 +4,7 @@ CREATE TABLE IF NOT EXISTS admins (
   id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   username      VARCHAR(50)  NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
-  last_login_at DATETIME     NULL,
   created_at    TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- Every admin login attempt (successful or not), for auditing.
-CREATE TABLE IF NOT EXISTS admin_logins (
-  id         INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-  admin_id   INT UNSIGNED NULL,               -- NULL when the username doesn't exist
-  username   VARCHAR(50)  NOT NULL,           -- what was typed
-  success    TINYINT(1)   NOT NULL,
-  reason     VARCHAR(20)  NOT NULL,           -- ok | wrong_password | unknown_user | locked
-  ip         VARCHAR(45)  NOT NULL DEFAULT '',
-  user_agent VARCHAR(255) NOT NULL DEFAULT '',
-  created_at TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  INDEX idx_logins_time (created_at),
-  INDEX idx_logins_admin (admin_id, success, created_at),
-  CONSTRAINT fk_logins_admin FOREIGN KEY (admin_id) REFERENCES admins(id) ON DELETE SET NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Site-wide key/value settings: SEO meta, brand colours, analytics ID...

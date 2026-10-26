@@ -5,13 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
   <title>Dashboard · Arena33 Admin</title>
-  <link rel="stylesheet" href="/admin/admin.css?v=5">
+  <link rel="stylesheet" href="<%= assetUrl('admin/admin.css') %>">
 </head>
 <body>
   <header class="topbar">
     <button class="icon-btn only-mobile" id="sideToggle" aria-label="Toggle menu">☰</button>
     <div class="brand">Arena<span>33</span> <small>Admin</small></div>
-    <button class="last-login" id="lastLogin" data-open="logins" title="Open login history"></button>
     <div class="top-actions">
       <button class="btn ghost" id="togglePreview">Hide preview</button>
       <a class="btn ghost" href="/" target="_blank" rel="noopener">View site ↗</a>
@@ -24,7 +23,6 @@
     <aside class="sidebar" id="sidebar">
       <p class="side-label">General</p>
       <button class="side-item" data-open="settings">⚙️ SEO &amp; site settings</button>
-      <button class="side-item" data-open="logins">🔐 Login history</button>
       <p class="side-label">Layout</p>
       <div id="fixedList"></div>
       <p class="side-label">Homepage sections <span class="hint">drag or use arrows to reorder</span></p>
@@ -55,6 +53,6 @@
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script src="/admin/admin.js?v=5"></script>
+  <script src="<%= assetUrl('admin/admin.js') %>"></script>
 </body>
 </html>

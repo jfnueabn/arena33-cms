@@ -21,6 +21,13 @@ module.exports = function createApp({ sessionStore } = {}) {
   app.locals.safeUrl = safeUrl;
   app.locals.highlight = highlight;
   app.locals.assetUrl = assetUrl;
+  app.locals.t = text => text;
+  app.locals.locale = 'en';
+  app.locals.localeOptions = require('./utils/locales').locales;
+  app.locals.pageSlug = 'home';
+  app.locals.pagePath = require('./utils/locales').pagePath;
+  app.locals.languagePath = require('./utils/locales').pagePath;
+  app.locals.alternateLinks = [];
   app.use('/', require('./routes/public'));
   app.use('/admin', require('./routes/admin'));
   app.use('/api/admin', require('./routes/admin-api'));

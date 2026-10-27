@@ -1,0 +1,13 @@
+<% const layout={...sectionLayout.defaults,...c.layout}; %>
+<section id="<%= s.section_key %>" class="flexible-section layout-variant-<%= layout.variant %> layout-pad-<%= layout.padding %> layout-gap-<%= layout.gap %> layout-width-<%= layout.width %> layout-align-<%= layout.align %>" style="<% if(layout.background_color) { %>background-color:<%= layout.background_color %>;<% } %><% if(layout.text_color) { %>color:<%= layout.text_color %>;--muted:<%= layout.text_color %>;<% } %><% if(layout.background_image) { %>background-image:linear-gradient(#0b164080,#0b164080),url('<%= encodeURI(layout.background_image).replace(/'/g,'%27') %>');background-size:cover;background-position:center;<% } %>"><div class="container">
+  <% if(s.title || s.eyebrow || s.subtitle) { %><%- include('../partials/section-head', {s}) %><% } %>
+  <div class="content-blocks">
+  <% sectionLayout.groups(c.blocks,layout.columns).forEach(group=>{ %>
+    <div class="section-columns section-columns-<%= group.full ? 1 : layout.columns %> section-valign-<%= layout.vertical_align %>">
+    <% group.columns.forEach(column=>{ %><div class="section-column">
+      <% column.forEach(block=>{ %><%- include('../partials/content-block', {block,s}) %><% }) %>
+    </div><% }) %>
+    </div>
+  <% }) %>
+  </div>
+</div></section>

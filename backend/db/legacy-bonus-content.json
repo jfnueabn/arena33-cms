@@ -1,0 +1,227 @@
+{
+  "bonus_hero": {
+    "title": "A warm welcome to Arena33",
+    "eyebrow": "New member offers",
+    "subtitle": "",
+    "content": {
+      "description": "Discover new member offers and find the details that matter before you get started.",
+      "primary_button": {
+        "text": "Explore offers",
+        "url": "#bonus-offers"
+      },
+      "secondary_button": {
+        "text": "Contact us",
+        "url": "#footer"
+      },
+      "image": "",
+      "image_alt": "Arena33 welcome rewards",
+      "card_label": "WELCOME BONUS",
+      "card_value": "More to discover",
+      "card_description": "Explore rewards for your first steps with Arena33.",
+      "highlights": [
+        {
+          "label": "Eligibility",
+          "value": "New members"
+        },
+        {
+          "label": "Offer details",
+          "value": "See terms"
+        },
+        {
+          "label": "Questions?",
+          "value": "Contact us"
+        }
+      ]
+    },
+    "template": "bonus_hero"
+  },
+  "bonus_offers": {
+    "title": "Explore member offers",
+    "eyebrow": "Offer collection",
+    "subtitle": "Compare the options and read the details before choosing.",
+    "content": {
+      "notice": "Sample offers for this preview. Confirm availability and full terms with Arena33 before taking part.",
+      "offers": [
+        {
+          "title": "Welcome offer",
+          "icon": "🎁",
+          "badge": "New members",
+          "benefit": "Start with a welcome reward",
+          "description": "Review the welcome offer and its eligibility requirements before joining.",
+          "image": "",
+          "image_alt": "Welcome offer",
+          "button": {
+            "text": "Ask about this offer",
+            "url": "#footer"
+          },
+          "visible": true
+        },
+        {
+          "title": "Returning member offer",
+          "icon": "✨",
+          "badge": "Discover",
+          "benefit": "Something for your next visit",
+          "description": "Ask which returning member promotions are currently available.",
+          "image": "",
+          "image_alt": "Returning member offer",
+          "button": {
+            "text": "Find out more",
+            "url": "#footer"
+          },
+          "visible": true
+        },
+        {
+          "title": "Loyalty rewards",
+          "icon": "👑",
+          "badge": "Members",
+          "benefit": "Explore member benefits",
+          "description": "Learn about available loyalty benefits and any conditions that apply.",
+          "image": "",
+          "image_alt": "Loyalty rewards",
+          "button": {
+            "text": "Explore benefits",
+            "url": "#footer"
+          },
+          "visible": true
+        }
+      ]
+    },
+    "template": "bonus_offers"
+  },
+  "bonus_about": {
+    "title": "Know what your offer includes",
+    "eyebrow": "The details matter",
+    "subtitle": "",
+    "content": {
+      "paragraphs": [
+        "An offer is easier to understand when its conditions are clear. Check who qualifies, what the benefit includes, and whether there are limits or an expiry date.",
+        "Read the terms alongside the headline benefit. If anything is unclear, contact the support team before accepting an offer."
+      ]
+    },
+    "template": "games_about"
+  },
+  "bonus_steps": {
+    "title": "Three steps to understand your offer",
+    "eyebrow": "How to get started",
+    "subtitle": "A little preparation helps you choose with confidence.",
+    "content": {
+      "anchor": "how-to-claim",
+      "items": [
+        {
+          "title": "Choose an offer",
+          "description": "Browse the available options and read the full details for the offer you are interested in."
+        },
+        {
+          "title": "Check eligibility",
+          "description": "Confirm account requirements, qualifying actions, restrictions and the validity period."
+        },
+        {
+          "title": "Follow the offer instructions",
+          "description": "Use the official destination or contact support for the current claim process."
+        }
+      ]
+    },
+    "template": "steps"
+  },
+  "bonus_comparison": {
+    "title": "Compare offers at a glance",
+    "eyebrow": "Offer overview",
+    "subtitle": "",
+    "content": {
+      "rows": [
+        {
+          "offer": "Welcome offer",
+          "eligibility": "New members",
+          "benefit": "See current offer",
+          "requirements": "Check full terms",
+          "validity": "Confirm before claiming"
+        },
+        {
+          "offer": "Returning member offer",
+          "eligibility": "Eligible members",
+          "benefit": "See current offer",
+          "requirements": "Offer-specific",
+          "validity": "Check offer period"
+        },
+        {
+          "offer": "Loyalty rewards",
+          "eligibility": "Qualifying members",
+          "benefit": "Depends on membership",
+          "requirements": "Programme terms apply",
+          "validity": "Check programme details"
+        }
+      ],
+      "note": "This table is an overview. The full terms of each active offer take priority."
+    },
+    "template": "bonus_comparison"
+  },
+  "bonus_methods": {
+    "title": "Check eligible payment methods",
+    "eyebrow": "Before you begin",
+    "subtitle": "",
+    "content": {
+      "paragraphs": [
+        "If an offer requires a payment, confirm which methods qualify before proceeding. Some promotions may have different requirements for different payment methods."
+      ],
+      "methods": [],
+      "note": "Contact support for the current list of eligible methods, processing times and any fees."
+    },
+    "template": "bonus_methods"
+  },
+  "bonus_terms": {
+    "title": "Important details to check",
+    "eyebrow": "Read before claiming",
+    "subtitle": "Always review the full terms for the specific offer.",
+    "content": {
+      "items": [
+        "Who is eligible and whether the offer is limited to one claim per member.",
+        "Any minimum qualifying action, maximum benefit or excluded activity.",
+        "Any play-through requirements and how they are calculated.",
+        "The claim deadline, expiry date and conditions for using or withdrawing rewards.",
+        "How to contact support about eligibility, restrictions or an unsuccessful claim."
+      ],
+      "note": "For adults aged 18 and above. Set personal limits, take breaks, and participate responsibly."
+    },
+    "template": "bonus_terms"
+  },
+  "bonus_faq": {
+    "title": "Welcome Bonus questions",
+    "eyebrow": "Need more information?",
+    "subtitle": "Find answers before you choose an offer.",
+    "content": {
+      "items": [
+        {
+          "question": "How do I find out whether I qualify?",
+          "answer": "Read the eligibility rules for the specific offer. Contact support if you are unsure whether the requirements apply to your account."
+        },
+        {
+          "question": "Are the offers on this page currently available?",
+          "answer": "The starting offers on this page are examples. Confirm the current offer details and availability with Arena33 before taking part."
+        },
+        {
+          "question": "Where do I claim a bonus?",
+          "answer": "Follow the official link or instructions provided for the offer. This landing page provides information and does not process claims or payments."
+        },
+        {
+          "question": "What should I read before accepting an offer?",
+          "answer": "Check eligibility, qualifying requirements, restrictions, benefit limits, play-through conditions and expiry dates."
+        }
+      ]
+    },
+    "template": "faq"
+  },
+  "bonus_cta": {
+    "title": "Have a question about an offer?",
+    "eyebrow": "",
+    "subtitle": "",
+    "content": {
+      "anchor": "bonus-contact",
+      "description": "Contact Arena33 to confirm the latest offers and the terms that apply.",
+      "button": {
+        "text": "Contact us",
+        "url": "#footer"
+      }
+    },
+    "template": "cta"
+  }
+}

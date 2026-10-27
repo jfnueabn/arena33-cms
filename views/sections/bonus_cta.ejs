@@ -1,0 +1,6 @@
+<section class="bonus-final"><div class="container">
+  <div class="bonus-final-inner"><span class="eyebrow"><%= t("Your next step") %></span><h2><%= s.title %></h2><p><%= c.description %></p>
+  <div class="games-actions"><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a>
+  <% if (c.secondary_button && c.secondary_button.text) { %><a class="btn btn-ghost" href="<%= safeUrl(c.secondary_button.url) %>"><%= c.secondary_button.text %></a><% } %></div>
+  <% if (c.note) { %><small><%= c.note %></small><% } %></div>
+</div></section>

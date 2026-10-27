@@ -1,0 +1,7 @@
+<section class="games-about"><div class="container bonus-editorial">
+  <div><% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %><h2><%= s.title %></h2>
+    <% c.paragraphs.forEach(p => { %><p><%= p %></p><% }) %>
+    <% if (c.detail_title) { %><h3><%= c.detail_title %></h3><p><%= c.detail_description %></p><% } %>
+  </div>
+  <% if (c.image) { %><img src="<%= safeUrl(c.image) %>" alt="<%= c.image_alt %>" loading="lazy" width="1200" height="520"><% } %>
+</div></section>

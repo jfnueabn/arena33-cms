@@ -1,0 +1,8 @@
+<section class="bonus-comparison"><div class="container">
+  <%- include('../partials/section-head', { s }) %>
+  <div class="bonus-table-wrap" role="region" aria-label="Bonus offer comparison" tabindex="0"><table>
+    <caption class="sr-only"><%= s.title %></caption>
+    <thead><tr><th scope="col"><%= t("Bonus type") %></th><th scope="col"><%= t("Percentage") %></th><th scope="col"><%= t("Maximum credit") %></th><th scope="col"><%= t("Minimum deposit") %></th><th scope="col"><%= t("Play-through") %></th><th scope="col"><%= t("Valid period") %></th></tr></thead>
+    <tbody><% c.rows.forEach(row => { %><tr><th scope="row"><%= row.offer %><small class="bonus-table-eligibility"><%= row.eligibility %></small></th><td><%= row.percentage || 'See terms' %></td><td><%= row.benefit %></td><td><%= row.minimum_deposit || 'See terms' %></td><td><%= row.requirements %></td><td><%= row.validity %></td></tr><% }) %></tbody>
+  </table></div><% if (c.note) { %><p class="bonus-table-note"><%= c.note %></p><% } %>
+</div></section>

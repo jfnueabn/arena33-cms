@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" role="img" aria-label="Floodlit sports arena">
+<defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#244eb7"/><stop offset="1" stop-color="#070f2d"/></linearGradient><linearGradient id="pitch" x2="0" y2="1"><stop stop-color="#17897c"/><stop offset="1" stop-color="#0b3e50"/></linearGradient><radialGradient id="light"><stop stop-color="#f8edba" stop-opacity=".7"/><stop offset="1" stop-color="#e6edff" stop-opacity="0"/></radialGradient></defs>
+<rect width="1200" height="680" rx="24" fill="url(#sky)"/><ellipse cx="600" cy="160" rx="600" ry="240" fill="url(#light)"/>
+<path d="M0 270Q600 60 1200 270V480H0Z" fill="#122357"/><path d="M0 320Q600 150 1200 320M0 350Q600 190 1200 350M0 380Q600 230 1200 380" fill="none" stroke="#5575ca" stroke-width="12"/>
+<path d="M190 380H1010L1250 680H-50Z" fill="url(#pitch)"/><g fill="none" stroke="#b8f3dc" stroke-width="3" opacity=".7"><path d="M245 405H955L1135 655H65ZM600 405V655"/><ellipse cx="600" cy="505" rx="120" ry="44"/><path d="M245 442H330L285 590H122M955 442H870L915 590H1078"/></g>
+<g stroke="#dbe8ff" stroke-width="8"><path d="M100 365V140M1100 365V140"/></g><g fill="#fff0a4"><rect x="45" y="125" width="110" height="28" rx="5"/><rect x="1045" y="125" width="110" height="28" rx="5"/></g>
+<circle cx="890" cy="420" r="86" fill="#e5edff"/><path d="m890 378 38 28-14 44h-48l-14-44Z" fill="#1a2e62"/><path d="m829 360 20 45-23 35m125-81-22 46 25 36m-92 58 5-48m47 0 16 45" stroke="#1a2e62" stroke-width="12" fill="none"/>
+<g fill="#facc15"><circle cx="235" cy="155" r="4"/><circle cx="755" cy="112" r="3"/><circle cx="970" cy="195" r="4"/></g></svg>

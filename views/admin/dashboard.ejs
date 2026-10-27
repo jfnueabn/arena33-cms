@@ -13,7 +13,7 @@
     <div class="brand">Arena<span>33</span> <small>Admin</small></div>
     <div class="top-actions">
       <button class="btn ghost" id="togglePreview">Hide preview</button>
-      <a class="btn ghost" href="/" target="_blank" rel="noopener">View site ↗</a>
+      <a class="btn ghost" id="viewSite" href="/" target="_blank" rel="noopener">View page ↗</a>
       <button class="btn ghost" id="pwBtn">Change password</button>
       <form method="post" action="/admin/logout"><button class="btn ghost" type="submit">Log out (<%= admin.username %>)</button></form>
     </div>
@@ -21,11 +21,14 @@
 
   <div class="layout" id="layout">
     <aside class="sidebar" id="sidebar">
-      <p class="side-label">General</p>
-      <button class="side-item" data-open="settings">⚙️ SEO &amp; site settings</button>
-      <p class="side-label">Layout</p>
+      <label class="page-select-label" for="pageSelect">Editing page</label>
+      <select id="pageSelect" class="page-select" aria-label="Editing page"></select>
+      <button class="side-item" data-open="page-settings">⚙️ Page settings &amp; SEO</button>
+      <p class="side-label">Shared across all pages</p>
+      <button class="side-item" data-open="settings">🎨 Site settings &amp; branding</button>
       <div id="fixedList"></div>
-      <p class="side-label">Homepage sections <span class="hint">drag or use arrows to reorder</span></p>
+      <p class="side-label"><span id="sectionLabel">Page sections</span> <span class="hint">drag or use arrows to reorder</span></p>
+      <div id="builderActions" class="builder-actions" hidden><button id="addSectionBtn" class="btn primary" type="button">+ Add section</button><button id="sectionTemplatesBtn" class="btn ghost" type="button">Use template</button><button id="removedSectionsBtn" class="btn ghost" type="button">Removed sections</button></div>
       <ol id="sectionList" class="section-list"></ol>
     </aside>
 
@@ -35,7 +38,7 @@
 
     <section class="preview" id="previewPane" aria-label="Live preview">
       <div class="preview-bar">Live preview <span class="muted small">updates after you save</span></div>
-      <iframe id="preview" src="/" title="Homepage preview"></iframe>
+      <iframe id="preview" src="/" title="Selected page preview"></iframe>
     </section>
   </div>
 
@@ -51,6 +54,8 @@
       </div>
     </form>
   </dialog>
+
+  <dialog id="sectionBuilderDialog" class="section-builder-dialog" aria-labelledby="sectionBuilderTitle"><div class="builder-dialog-head"><h2 id="sectionBuilderTitle">Add a section</h2><button type="button" id="closeSectionBuilder" class="btn ghost">Close</button></div><div id="sectionBuilderContent"></div></dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="<%= assetUrl('admin/admin.js') %>"></script>

@@ -22,7 +22,7 @@ const { connection, dbName } = require('./config');
   await conn.query(`USE \`${dbName}\``);
 
   if (reset) {
-    await conn.query('DROP TABLE IF EXISTS admin_logins, section_revisions, sections, settings, admins');
+    await conn.query('DROP TABLE IF EXISTS section_translations, page_translations, admin_logins, section_revisions, landing_pages, sections, settings, admins');
     console.log('• Dropped existing CMS tables');
   }
 
@@ -40,6 +40,42 @@ const { connection, dbName } = require('./config');
     );
   }
   console.log('• Default settings and sections seeded');
+  const popularGames = require('./popular-games');
+  const [pageSeed] = await conn.query(
+    'INSERT IGNORE INTO landing_pages (slug, title, eyebrow, subtitle, content) VALUES (?, ?, ?, ?, ?)',
+    [popularGames.slug, popularGames.title, popularGames.eyebrow, popularGames.subtitle, JSON.stringify(popularGames.content)]
+  );
+  if (pageSeed.affectedRows) {
+    const [[header]] = await conn.query("SELECT content FROM sections WHERE section_key = 'header'");
+    const content = typeof header.content === 'string' ? JSON.parse(header.content) : header.content;
+    if (!content.nav.some(link => link.url === '/popular-games')) {
+      content.nav.unshift({ label: 'Popular Games', url: '/popular-games' });
+      await conn.query("UPDATE sections SET content = ? WHERE section_key = 'header'", [JSON.stringify(content)]);
+    }
+  }
+
+  await require('./migrate-pages')(conn);
+  console.log('• Page sections migrated');
+  await require('./seed-landing-page')(conn, require('./welcome-bonus'));
+  console.log('• Welcome Bonus page ready');
+  await require('./upgrade-welcome-bonus')(conn);
+  await require('./seed-landing-page')(conn, require('./sports-betting'));
+  console.log('• Sports Betting page ready');
+  await require('./seed-landing-page')(conn, require('./virtual-sports'));
+  console.log('• Virtual Sports page ready');
+  await require('./seed-landing-page')(conn, require('./sports'));
+  console.log('• Sports page ready');
+  await require('./seed-landing-page')(conn, require('./match-odds'));
+  console.log('• Match Odds page ready');
+  await require('./seed-landing-page')(conn, require('./baccarat'));
+  console.log('• Baccarat page ready');
+  const floatingActions = defaults.sections.find(s => s.section_key === 'header').content.floating_actions;
+  await conn.query("UPDATE sections SET content = JSON_INSERT(content, '$.floating_actions', JSON_EXTRACT(?, '$')) WHERE section_key = 'header'", [JSON.stringify(floatingActions)]);
+  await require('./migrate-locales')(conn);
+  await require('./seed-locales')(conn);
+  console.log('• English, Bahasa Melayu and Simplified Chinese ready');
+  await require('./migrate-offline-translation')(conn);
+  await require('./migrate-hero-items')(conn);
 
   const user = process.env.ADMIN_USERNAME;
   const pass = process.env.ADMIN_PASSWORD;

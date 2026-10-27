@@ -1,0 +1,4 @@
+<section id="<%= s.section_key %>" class="bonus-final" aria-labelledby="<%= s.section_key %>-title"><div class="container"><div class="bonus-final-inner">
+  <%- include('../partials/section-head', { s }) %><p><%= c.description %></p>
+  <% if(c.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(c.button.url) %>"><%= c.button.text %></a><% } %>
+</div></div></section>

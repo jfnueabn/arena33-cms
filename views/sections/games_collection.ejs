@@ -1,0 +1,23 @@
+<% const games = c.games.filter(g => g.visible); const categories = [...new Set(games.map(g => g.category).filter(Boolean))]; %>
+<section id="game-collection" class="container">
+  <div class="sec-head"><% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %><h2><%= s.title %></h2><% if (s.subtitle) { %><p><%= s.subtitle %></p><% } %></div>
+  <div class="game-filters" role="group" aria-label="<%= t('Filter games by category') %>">
+    <button type="button" class="game-filter active" data-game-filter="" aria-pressed="true"><%= t("All games") %></button>
+    <% categories.forEach(category => { %><button type="button" class="game-filter" data-game-filter="<%= category %>" aria-pressed="false"><%= category %></button><% }) %>
+  </div>
+  <p class="games-count" id="gamesCount" role="status"><%= games.length %> <%= t('games') %></p>
+  <div class="games-grid">
+    <% games.forEach((game, i) => { %>
+    <article class="game-card" data-game-category="<%= game.category %>">
+      <div class="game-cover game-cover-<%= i % 4 %>">
+        <% if (game.image) { %><img src="<%= safeUrl(game.image) %>" alt="<%= game.image_alt %>" loading="lazy" width="480" height="300"><% } else { %><span aria-hidden="true"><%= game.icon %></span><% } %>
+        <% if (game.badge) { %><span class="game-badge"><%= game.badge %></span><% } %>
+      </div>
+      <div class="game-copy"><p class="game-category"><%= game.category %></p><h3><%= game.name %></h3><p><%= game.description %></p>
+        <% if (game.url && safeUrl(game.url) !== '#') { %><a class="game-link" href="<%= safeUrl(game.url) %>"><%= t('Explore game') %> <span aria-hidden="true">↗</span><span class="sr-only">: <%= game.name %></span></a><% } %>
+      </div>
+    </article>
+    <% }) %>
+  </div>
+  <% if (!games.length) { %><p class="games-empty"><%= t("The collection is being updated. Please check back soon.") %></p><% } %>
+</section>

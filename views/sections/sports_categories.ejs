@@ -1,0 +1,6 @@
+<section id="<%= c.anchor || 'sports-categories' %>"><div class="container"><%- include('../partials/section-head', { s }) %>
+  <div class="sports-category-grid"><% c.items.filter(item => item.visible).forEach(item => { %><article class="card sports-category">
+    <% if (item.image) { %><img src="<%= safeUrl(item.image) %>" alt="<%= item.image_alt %>" loading="lazy" width="480" height="280"><% } else { %><div class="sports-category-art" aria-hidden="true"><%= item.icon %></div><% } %>
+    <div class="sports-category-copy"><span class="sports-category-badge"><%= item.badge %></span><h3><%= item.title %></h3><p><%= item.description %></p><ul><% item.tags.forEach(tag => { %><li><%= tag %></li><% }) %></ul></div>
+  </article><% }) %></div>
+</div></section>

@@ -1,0 +1,20 @@
+<section class="hero games-hero">
+  <div class="container games-hero-grid">
+    <div>
+      <span class="eyebrow"><%= s.eyebrow %></span>
+      <h1><%= s.title %></h1>
+      <p class="games-intro"><%= s.subtitle %></p>
+      <div class="games-actions">
+        <a class="btn btn-primary" href="<%= safeUrl(c.primary_button.url) %>"><%= c.primary_button.text %></a>
+        <a class="btn btn-ghost" href="<%= safeUrl(c.secondary_button.url) %>"><%= c.secondary_button.text %></a>
+      </div>
+    </div>
+    <div class="games-art">
+      <% if (c.image) { %><img src="<%= safeUrl(c.image) %>" alt="<%= c.image_alt %>" width="640" height="420"><% } else { %>
+      <span class="games-art-label"><%= t("THE COLLECTION") %></span>
+      <div class="games-art-icons" aria-hidden="true"><span>🎮</span><span>🃏</span><span>⚽</span><span>🎡</span></div>
+      <p><%= t("Discover. Explore. Find your favourite.") %></p>
+      <% } %>
+    </div>
+  </div>
+</section>

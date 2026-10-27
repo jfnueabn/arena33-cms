@@ -1,0 +1,4 @@
+<section id="<%= s.section_key %>" aria-labelledby="<%= s.section_key %>-title"><div class="container bonus-editorial">
+  <div><%- include('../partials/section-head', { s }) %><% c.paragraphs.forEach(paragraph => { %><p><%= paragraph %></p><% }) %></div>
+  <% if (c.image) { %><img src="<%= safeUrl(c.image) %>" alt="<%= c.image_alt %>" loading="lazy" width="720" height="480"><% } %>
+</div></section>

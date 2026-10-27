@@ -1,0 +1,13 @@
+<section id="bonus-offers"><div class="container">
+  <%- include('../partials/section-head', { s }) %>
+  <% if (c.notice) { %><p class="bonus-notice"><%= c.notice %></p><% } %>
+  <div class="bonus-offer-grid"><% const offers = c.offers.filter(offer => offer.visible); offers.forEach(offer => { %>
+    <article class="card bonus-offer">
+      <% if (offer.image) { %><img class="bonus-offer-image" src="<%= safeUrl(offer.image) %>" alt="<%= offer.image_alt %>" loading="lazy" width="480" height="300"><% } else { %><span class="bonus-offer-icon" aria-hidden="true"><%= offer.icon %></span><% } %>
+      <% if (offer.badge) { %><span class="bonus-offer-badge"><%= offer.badge %></span><% } %>
+      <h3><%= offer.title %></h3><p class="bonus-benefit"><%= offer.benefit %></p><p><%= offer.description %></p>
+      <% if (offer.button.text && offer.button.url) { %><a class="game-link" href="<%= safeUrl(offer.button.url) %>"><%= offer.button.text %><span aria-hidden="true">↗</span></a><% } %>
+    </article>
+  <% }); %></div>
+  <% if (!offers.length) { %><p class="games-empty"><%= t("New offers will be listed here when available.") %></p><% } %>
+</div></section>

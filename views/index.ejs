@@ -10,6 +10,8 @@
   <% if (settings.seo_keywords) { %><meta name="keywords" content="<%= settings.seo_keywords %>"><% } %>
   <meta name="robots" content="<%= settings.robots_index === '1' ? 'index, follow' : 'noindex, nofollow' %>">
   <link rel="canonical" href="<%= canonical %>">
+  <% alternateLinks.forEach(link => { %><link rel="alternate" hreflang="<%= link.language %>" href="<%= link.url %>"><% }) %>
+  <% if (alternateLinks.length) { %><link rel="alternate" hreflang="x-default" href="<%= alternateLinks[0].url %>"><% } %>
   <meta name="theme-color" content="#1e3a8a">
 
   <!-- Open Graph / Social -->
@@ -27,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="<%= assetUrl('css/style.css') %>">
   <% const hex = (v, d) => (/^#[0-9a-f]{3,8}$/i.test(v || '') ? v : d); %>
   <style>:root{--accent:<%= hex(settings.accent_color, '#facc15') %>;--accent2:<%= hex(settings.secondary_color, '#22d3ee') %>}</style>
 
@@ -48,19 +50,20 @@
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','<%= settings.ga_id %>');</script>
   <% } %>
 </head>
-<body>
-  <a class="skip" href="#main">Skip to content</a>
+<body class="<%= previewMode ? 'cms-preview ' : '' %><%= !header.content.floating_actions || header.content.floating_actions.enabled ? 'has-floating-actions' : '' %>">
+  <a class="skip" href="#main"><%= t('Skip to content') %></a>
 
   <%- include('partials/header', { h: header.content }) %>
 
   <main id="main">
     <% sections.forEach(s => { %>
-      <%- include('sections/' + s.section_key, { s, c: s.content }) %>
+      <%- include('sections/' + s.template, { s, c: s.content }) %>
     <% }) %>
   </main>
 
   <%- include('partials/footer', { f: footer.content }) %>
+  <%- include('partials/floating-actions') %>
 
-  <script src="/js/main.js" defer></script>
+  <script src="<%= assetUrl('js/main.js') %>" defer></script>
 </body>
 </html>

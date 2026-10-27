@@ -46,6 +46,103 @@ share the admin authentication and CSRF middleware. For a separate feature route
 mount it in `backend/app.js` and apply the appropriate authentication middleware.
 Run backend route checks with `node --test backend/tests/routes.test.js`.
 
+## Popular Games landing page
+
+`/popular-games` is a server-rendered landing page with category filters, editable
+game cards, provider names, guides, FAQ and calls to action. Manage it under
+the **Editing page** selector in the admin dashboard, including its SEO fields
+and publication status. Cards support images, links, ordering and visibility.
+The initial game cards are sample content; replace them with your own collection.
+No games are hosted or executed by this project.
+
+Run `npm run db:setup` after upgrading to create and seed the `landing_pages` table
+without replacing existing content. On first creation, the setup adds Popular Games
+to the header navigation. Unpublished pages return 404 and leave the sitemap.
+
+## Languages
+
+Public pages support English (`/en/`), Bahasa Melayu (`/ms/`) and Simplified
+Chinese (`/zh/`). The header language menu keeps visitors on the same page;
+internal links stay in the selected language. Original URLs such as `/` and
+`/popular-games` still serve English, with canonical URLs pointing to `/en/`.
+Each version has its own title, description, HTML language and hreflang links,
+and the sitemap includes all three languages.
+
+The admin editor and preview display English only. Visitors choose their language on the public website.
+English saves automatically refresh translations; section ordering, visibility, publication and branding remain shared.
+
+Run `npm run db:setup` when upgrading to create translation tables and add the
+initial Bahasa Melayu and Chinese content. Brand names, game titles and payment
+provider names may remain in their original form.
+
+## Shared page editor
+
+### Homepage section builder
+
+Select **Homepage → Add section** to create a blank section. Use **Add content** inside it to
+combine Text, Image, Cards, Table, FAQ and Button blocks. Content blocks can be reordered and
+deleted independently. **Use template** provides the earlier ready-made section layouts as shortcuts.
+Blank homepage sections also have **Section layout & appearance** controls for one, two or three
+columns, content width, padding, gaps, background image/colour and text colour. Each block's
+**Layout & style** controls its column or full-width placement, alignment, width, text size,
+padding, corner style and colours. Blocks can be duplicated. Columns stack on screens up to 700px.
+Add a Heading block for an editable H2, H3 or H4 inside a column. Layout settings are shared
+across languages; the translator only changes content text.
+The homepage Hero now uses this same section builder: Label / Badge, an H1 Heading with optional
+highlighted words, Text, Button group and Hero visual (image or emoji with editable tags).
+Its existing content, translations and history are converted once by setup; the original records
+are retained in `cms_migration_backups`. H1 headings are available in the block editor, with a
+guard against publishing more than one H1 on a page. Hero gradient is an optional background
+style rather than a separate fixed-content section template.
+Hero visual tags have independent top/middle/bottom placement, left/centre/right alignment,
+small/normal/large size, text colour and background colour. Tags in the same region stack
+without overlapping. Existing string tags and older history entries retain their default positions
+until edited; saved tag styling stays identical across languages.
+Existing sections retain their layouts and content. Tables support 1–12 editable columns and up to 200 rows, with column and row
+reordering. Existing two-column tables and older history snapshots retain their content.
+New sections start hidden, in both the public page and admin preview. Edit the content, enable **Show this section on this page**, then save to make it public.
+English saves also generate Malay and Chinese content.
+
+Builder sections can be renamed, duplicated, reordered, hidden and removed. Existing homepage
+sections, including the hero, can also be renamed and removed. Shared header/footer stay separate.
+**Removed sections** restores content as hidden, including its history. Removal is stored separately
+from visibility so rerunning setup does not recreate removed starter sections. Duplicating existing
+legacy layouts and adding sections to other pages are outside this first homepage release.
+
+Floating Register now and Log in links appear at the bottom of every public page.
+Edit their labels or disable them under **Header & navigation → Floating actions**.
+Their destinations follow the shared header's signup and login button URLs.
+
+`/sports-betting` adds editable match previews, six sports categories, market guides,
+getting-started steps, mobile information, responsible participation, FAQ and a
+closing call to action. Scores and odds are labelled illustrative. The page does
+not accept wagers or connect to a live sports feed. Run setup to add it to the
+database and shared header without overwriting existing edits.
+
+The `/welcome-bonus` landing page uses the same editor and is linked from the
+shared header. Its nine sections cover the hero, bonus types, introduction, claim
+steps, comparison, payment information, terms, FAQ and contact call to action.
+Initial offers are marked as samples; replace them with confirmed offer details
+and destination links. The landing page does not process claims or payments.
+Running setup seeds the new page without replacing existing page or section edits.
+The promotional layout includes six offer cards, editable artwork, payment tiles,
+and a detailed comparison table. Set **Hero → Event date & time** to enable the
+countdown; leaving it empty shows an unset-date placeholder. Setup upgrades untouched
+starter content, preserves customised sections, and saves earlier content in section
+history. The included offer amounts are illustrative examples.
+
+All four landing pages use the same editor. Choose a page, then edit its SEO
+and publication status under **Page settings & SEO**, or select one of its sections.
+Sections support individual saves, visibility, drag/arrow ordering and revision
+restore. The preview and View page link follow the selected page. Header, footer
+and branding remain shared across the site.
+
+Setup migrates existing homepage content and splits the original Popular Games
+document into seven sections without overwriting saved edits. The original document
+is retained in its database record as a migration backup. Rerunning setup does not
+recreate or overwrite the migrated sections. Authenticated `?preview=1` requests
+can preview an unpublished page; these previews use noindex and are not cached.
+
 ## How it works
 
 ```
@@ -62,8 +159,11 @@ Admin form (/admin) ──PUT /api/admin/…──▶ MySQL ──▶ GET / rend
 | Table | Purpose |
 |---|---|
 | `admins` | Admin users (bcrypt password hashes) |
-| `settings` | Key/value site settings: SEO title, description, canonical, OG image, colours, GA ID |
-| `sections` | One row per homepage section: heading columns + `content` JSON, visibility, sort order |
+| `settings` | Shared branding, site canonical URL, language, analytics and global indexing settings |
+| `landing_pages` | Page-specific SEO settings and publication status |
+| `page_translations` | Bahasa Melayu and Chinese SEO content |
+| `section_translations` | Language-specific section headings and JSON content |
+| `sections` | Page-owned or shared sections: template, headings, content JSON, visibility and sort order |
 | `section_revisions` | Snapshot before every save (last 20 per section) for one-click restore |
 | `sessions` | Login sessions (created automatically by express-mysql-session) |
 
@@ -78,6 +178,32 @@ Admin form (/admin) ──PUT /api/admin/…──▶ MySQL ──▶ GET / rend
 - **History:** restore any of the last 20 versions of a section
 
 ## SEO features
+
+### Automatic offline translations
+
+The admin editor and preview display English only. Visitors can choose English, Bahasa Melayu or
+Simplified Chinese on the public website. Saving a section or
+page SEO generates Malay and Chinese versions locally using Argos/CTranslate2 models. Existing
+approved starter phrases use the included dictionary; new text uses the local model. No translation
+API or API key is required. Machine translations can need linguistic review.
+
+On a new computer or server, install Python 3.12 with venv support, then run:
+
+```sh
+npm run translations:setup
+npm run db:setup
+npm run translations:sync
+```
+
+Setup downloads Python dependencies and two model packages once; translating content afterward
+uses local files. Models and the Python environment live in ignored `.translation-runtime/`.
+Set `TRANSLATION_SETUP_PYTHON` when the Python installer command is not `python` (Windows)
+or `python3` (Linux). Optional `TRANSLATION_PYTHON` and `TRANSLATION_MODEL_DIR` override runtime paths.
+Run setup on the hosting server too; the existing Node-only Render build does not install these models.
+
+Source fingerprints prevent older translations from appearing after English changes. If the local
+worker is unavailable, English still saves, the admin receives a pending warning, and affected public
+content uses current English until the next save or `npm run translations:sync` succeeds.
 
 Server-side rendering · one H1 per page · semantic landmarks · canonical + hreflang-ready ·
 Open Graph / Twitter cards · JSON-LD (Organization, WebSite, FAQPage generated from the FAQ section) ·
@@ -101,7 +227,7 @@ Render has no managed MySQL, so the database runs on Aiven's free MySQL plan.
    - `DB_CA_CERT` — paste the full contents of the CA certificate file
    - `ADMIN_PASSWORD` — the password for the `/admin` login (min 6 characters)
 3. Deploy. On start, `npm run db:setup` creates the `arena33` database, tables, content and admin.
-4. Open `https://<your-app>.onrender.com/admin`, log in, and check **SEO & site settings → Canonical URL**.
+4. Open `https://<your-app>.onrender.com/admin`, log in, and check **Site settings & branding → Site canonical URL**.
 
 **Changing the admin password later:** use *Change password* inside the admin, or change `ADMIN_PASSWORD`
 in Render's Environment tab, add `ADMIN_RESET_PASSWORD=true`, redeploy once, then remove that variable

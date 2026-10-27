@@ -1,0 +1,6 @@
+<section><div class="container games-reading">
+  <%- include('../partials/section-head', { s }) %>
+  <% c.paragraphs.forEach(p => { %><p><%= p %></p><% }) %>
+  <% if (c.methods.length) { %><ul class="bonus-methods"><% c.methods.forEach(method => { %><li><%= method %></li><% }) %></ul><% } %>
+  <% if (c.note) { %><p class="bonus-table-note"><%= c.note %></p><% } %>
+</div></section>

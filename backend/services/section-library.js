@@ -1,0 +1,10 @@
+// Public templates are chosen from this allowlist, never a user-supplied file path.
+module.exports = [
+  {template:'builder_section',name:'Blank section',description:'Start empty and add content blocks.',title:'',eyebrow:'',subtitle:'',content:{blocks:[]}},
+  { template:'builder_text', name:'Text', description:'A heading with editable paragraphs.', title:'Tell your story', eyebrow:'About us', subtitle:'', content:{paragraphs:['Write your own content here. Add as many paragraphs as you need.']} },
+  { template:'builder_image', name:'Text + Image', description:'An image beside your message.', title:'Show what makes you different', eyebrow:'Discover more', subtitle:'', content:{paragraphs:['Introduce your business, product or service.'],image:'/images/sports-arena.svg',image_alt:'Describe your image'} },
+  { template:'builder_cards', name:'Cards', description:'Features, services or benefits in a responsive grid.', title:'Explore what we offer', eyebrow:'Our highlights', subtitle:'Add a short introduction to your cards.', content:{items:[{title:'First highlight',description:'Explain the benefit for your visitors.'},{title:'Second highlight',description:'Share another reason to choose you.'},{title:'Third highlight',description:'Tell visitors what they can expect.'}]} },
+  { template:'builder_faq', name:'FAQ', description:'Expandable questions and answers.', title:'Your questions, answered', eyebrow:'FAQ', subtitle:'', content:{items:[{question:'What would you like visitors to know?',answer:'Write a helpful answer here.'}]} },
+  { template:'builder_table', name:'Table', description:'Add columns and rows to compare your options.', title:'Compare your options', eyebrow:'At a glance', subtitle:'', content:{columns:['Feature','Details'],rows:[['First feature','Add your details here.'],['Second feature','Add another detail.']]} },
+  { template:'builder_cta', name:'Call to Action', description:'A focused message and a button.', title:'Ready to take the next step?', eyebrow:'Get started', subtitle:'', content:{description:'Tell visitors what to do next.',button:{text:'Contact us',url:'#footer'}} }
+];

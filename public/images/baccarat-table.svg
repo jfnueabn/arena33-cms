@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480" role="img" aria-labelledby="title desc">
+  <title id="title">Baccarat table illustration</title><desc id="desc">Sample Player and Banker cards on a blue table with gold trim.</desc>
+  <defs><linearGradient id="bg" x2="1" y2="1"><stop stop-color="#243e96"/><stop offset="1" stop-color="#0b1640"/></linearGradient><radialGradient id="felt"><stop stop-color="#236a89"/><stop offset="1" stop-color="#123351"/></radialGradient><linearGradient id="gold"><stop stop-color="#fff0a2"/><stop offset="1" stop-color="#d7a518"/></linearGradient></defs>
+  <rect width="720" height="480" rx="28" fill="url(#bg)"/>
+  <ellipse cx="360" cy="260" rx="320" ry="176" fill="url(#felt)" stroke="url(#gold)" stroke-width="7"/>
+  <ellipse cx="360" cy="260" rx="300" ry="157" fill="none" stroke="#facc15" opacity=".3"/>
+  <text x="360" y="67" text-anchor="middle" fill="#facc15" font-family="sans-serif" font-size="20" letter-spacing="6">BACCARAT</text>
+  <g font-family="sans-serif" font-weight="bold" font-size="27">
+    <g transform="translate(145 156) rotate(-9 50 65)"><rect width="96" height="138" rx="10" fill="#f7f8ff"/><text x="12" y="34" fill="#d83755">7</text><text x="48" y="88" text-anchor="middle" fill="#d83755" font-size="46">♥</text></g>
+    <g transform="translate(214 161) rotate(8 50 65)"><rect width="96" height="138" rx="10" fill="#f7f8ff"/><text x="12" y="34" fill="#17254b">A</text><text x="48" y="88" text-anchor="middle" fill="#17254b" font-size="46">♠</text></g>
+    <g transform="translate(411 156) rotate(-9 50 65)"><rect width="96" height="138" rx="10" fill="#f7f8ff"/><text x="12" y="34" fill="#d83755">6</text><text x="48" y="88" text-anchor="middle" fill="#d83755" font-size="46">♦</text></g>
+    <g transform="translate(480 161) rotate(8 50 65)"><rect width="96" height="138" rx="10" fill="#f7f8ff"/><text x="12" y="34" fill="#17254b">3</text><text x="48" y="88" text-anchor="middle" fill="#17254b" font-size="46">♣</text></g>
+  </g>
+  <g fill="#facc15" stroke="#fff0a2" stroke-width="2"><circle cx="333" cy="330" r="22"/><circle cx="382" cy="330" r="22"/></g>
+  <g fill="#15285b"><circle cx="333" cy="330" r="14"/><circle cx="382" cy="330" r="14"/></g>
+</svg>

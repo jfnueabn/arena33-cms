@@ -1,0 +1,9 @@
+<section id="<%= c.anchor %>" aria-labelledby="<%= s.section_key %>-title"><div class="container">
+  <%- include('../partials/section-head', { s }) %>
+  <p><%= c.intro %></p>
+  <div class="table-wrap"><table>
+    <thead><tr><th scope="col"><%= c.columns.odds %></th><th scope="col"><%= c.columns.stake %></th><th scope="col"><%= c.columns.returns %></th><th scope="col"><%= c.columns.profit %></th></tr></thead>
+    <tbody><% c.rows.forEach(row => { %><tr><th scope="row"><%= row.odds %></th><td><%= row.stake %></td><td><%= row.returns %></td><td><%= row.profit %></td></tr><% }) %></tbody>
+  </table></div>
+  <p><strong><%= c.formula %></strong></p><p><%= c.note %></p>
+</div></section>

@@ -1,0 +1,1 @@
+<% if (c.providers.length) { %><section class="container"><div class="sec-head"><% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %><h2><%= s.title %></h2><% if (s.subtitle) { %><p><%= s.subtitle %></p><% } %></div><ul class="game-providers"><% c.providers.forEach(provider => { %><li><%= provider %></li><% }) %></ul></section><% } %>

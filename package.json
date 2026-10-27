@@ -9,7 +9,9 @@
     "dev": "node --watch backend/server.js",
     "db:setup": "node backend/db/setup.js",
     "db:reset": "node backend/db/setup.js --reset",
-    "admin:password": "node backend/db/setup.js --reset-admin-password"
+    "admin:password": "node backend/db/setup.js --reset-admin-password",
+    "translations:setup": "node backend/translation/setup.js",
+    "translations:sync": "node backend/translation/sync.js"
   },
   "engines": {
     "node": ">=18"

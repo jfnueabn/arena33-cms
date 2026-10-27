@@ -1,0 +1,4 @@
+<section id="<%= s.section_key %>" aria-labelledby="<%= s.section_key %>-title"><div class="container">
+  <%- include('../partials/section-head', { s }) %>
+  <div class="games-guide-grid"><% c.items.forEach(item => { %><article class="card"><h3><%= item.title %></h3><p><%= item.description %></p></article><% }) %></div>
+</div></section>

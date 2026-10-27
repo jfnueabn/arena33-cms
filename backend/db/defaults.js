@@ -23,14 +23,14 @@ const sections = [
     content: {
       logo_text: 'Arena', logo_accent: '33', logo_image: '',
       nav: [
-        { label: 'About', url: '#about' },
-        { label: 'Features', url: '#features' },
-        { label: 'How It Works', url: '#how' },
-        { label: 'Plans', url: '#plans' },
-        { label: 'FAQ', url: '#faq' }
+        { label: 'Home', url: '/' },
+        { label: 'Popular Games', url: '/popular-games' },
+        { label: 'Welcome Bonus', url: '/welcome-bonus' },
+        { label: 'Sports Betting', url: '/sports-betting' }
       ],
       login_button: { text: 'Log In', url: '#login' },
-      signup_button: { text: 'Sign Up', url: '#signup' }
+      signup_button: { text: 'Sign Up', url: '#signup' },
+      floating_actions: { enabled: true, register_text: 'Register now', login_text: 'Log in' }
     }
   },
   {

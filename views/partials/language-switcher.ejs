@@ -1,0 +1,4 @@
+<details class="language-switcher">
+  <summary aria-label="Language / Bahasa / 语言"><span aria-hidden="true">🌐</span> <%= localeOptions.find(l => l.code === locale).label %></summary>
+  <div class="language-options"><% localeOptions.forEach(language => { %><a href="<%= languagePath(pageSlug, language.code) %>" lang="<%= language.html %>" hreflang="<%= language.html %>"<% if (language.code === locale) { %> aria-current="true"<% } %>><%= language.label %></a><% }) %></div>
+</details>

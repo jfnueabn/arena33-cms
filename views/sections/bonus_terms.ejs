@@ -1,0 +1,5 @@
+<section id="<%= c.anchor || 'bonus-terms' %>" class="games-about"><div class="container games-reading">
+  <%- include('../partials/section-head', { s }) %>
+  <ul class="bonus-terms"><% c.items.forEach(item => { %><li><%= item %></li><% }) %></ul>
+  <% if (c.note) { %><p class="games-notice"><%= c.note %></p><% } %>
+</div></section>

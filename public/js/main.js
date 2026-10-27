@@ -1,3 +1,5 @@
+const publicLocale = document.documentElement.lang.startsWith('ms') ? 'ms' : document.documentElement.lang.startsWith('zh') ? 'zh' : 'en';
+const publicLabels = { en: { game:'game', games:'games', won:'You won' }, ms: {game:'permainan',games:'permainan',won:'Anda menang'}, zh:{game:'款游戏',games:'款游戏',won:'你获得了'} }[publicLocale];
 // Mobile menu
 const nav = document.getElementById('nav');
 const menuBtn = document.getElementById('menuBtn');
@@ -65,8 +67,20 @@ if (wheel && spinBtn) {
     rot += 360 * 5 + (360 - (idx * seg + seg / 2)) - (rot % 360);
     wheel.style.transform = `rotate(${rot}deg)`;
     setTimeout(() => {
-      spinOut.textContent = `🎉 You won: ${prizes[idx]}!`;
+      spinOut.textContent = `🎉 ${publicLabels.won}: ${prizes[idx]}!`;
       spinBtn.disabled = false;
     }, 4100);
   });
 }
+
+// Popular Games: progressive enhancement keeps every card readable without JavaScript.
+const gameFilters = document.querySelectorAll('[data-game-filter]');
+const gameCards = document.querySelectorAll('[data-game-category]');
+gameFilters.forEach(button => button.addEventListener('click', () => {
+  const category = button.dataset.gameFilter;
+  let count = 0;
+  gameCards.forEach(card => { card.hidden = !!category && card.dataset.gameCategory !== category; if (!card.hidden) count++; });
+  gameFilters.forEach(filter => { const active = filter === button; filter.classList.toggle('active', active); filter.setAttribute('aria-pressed', String(active)); });
+  const status = document.getElementById('gamesCount');
+  if (status) status.textContent = count + ' ' + (count === 1 ? publicLabels.game : publicLabels.games);
+}));

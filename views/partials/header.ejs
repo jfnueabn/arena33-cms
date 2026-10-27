@@ -1,15 +1,19 @@
 <header>
   <nav class="container nav" id="nav" aria-label="Main">
-    <a class="logo" href="/" aria-label="<%= h.logo_text + h.logo_accent %> home">
+    <a class="logo" href="<%= pagePath('home', locale) %>" aria-label="<%= h.logo_text + h.logo_accent %> home">
       <% if (h.logo_image) { %><img src="<%= safeUrl(h.logo_image) %>" alt="<%= h.logo_text + h.logo_accent %>" height="36"><% } else { %><%= h.logo_text %><span><%= h.logo_accent %></span><% } %>
     </a>
     <ul>
-      <% h.nav.forEach(l => { %><li><a href="<%= safeUrl(l.url) %>"><%= l.label %></a></li><% }) %>
+      <% h.nav.forEach(l => {
+        const href = safeUrl(l.url.startsWith('#') ? '/' + l.url : l.url);
+        const active = href.replace(/\/$/, '') === pagePath(pageSlug, locale).replace(/\/$/, '');
+      %><li><a href="<%= href %>"<% if (active) { %> class="is-active" aria-current="page"<% } %>><%= l.label %></a></li><% }) %>
     </ul>
+    <%- include('language-switcher') %>
     <div class="nav-cta">
       <% if (h.login_button.text) { %><a class="btn btn-ghost" href="<%= safeUrl(h.login_button.url) %>"><%= h.login_button.text %></a><% } %>
       <% if (h.signup_button.text) { %><a class="btn btn-primary" href="<%= safeUrl(h.signup_button.url) %>"><%= h.signup_button.text %></a><% } %>
     </div>
-    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+    <button class="menu-btn" id="menuBtn" aria-label="<%= t('Open menu') %>" aria-expanded="false">☰</button>
   </nav>
 </header>

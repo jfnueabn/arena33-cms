@@ -1,0 +1,14 @@
+<div class="bonus-breadcrumb"><div class="container"><a href="<%= pagePath('home', locale) %>"><%= t("Home") %></a><span aria-hidden="true">/</span><span><%= c.breadcrumb || t("Sports Betting") %></span></div></div>
+<section class="hero sports-hero"><div class="container sports-hero-grid">
+  <div><span class="eyebrow"><%= s.eyebrow %></span><h1><%= s.title %></h1><p><%= c.description %></p>
+    <% if (s.subtitle) { %><p><%= s.subtitle %></p><% } %>
+    <div class="games-actions"><a class="btn btn-primary" href="<%= safeUrl(c.primary_button.url) %>"><%= c.primary_button.text %></a><a class="btn btn-ghost" href="<%= safeUrl(c.secondary_button.url) %>"><%= c.secondary_button.text %></a></div>
+  </div>
+  <div class="sports-scoreboard"><div class="sports-scoreboard-head"><span class="sports-signal" aria-hidden="true"></span><%= c.preview_label %><span>⚽</span></div>
+    <% c.matches.forEach(match => { %><article class="sports-match"><div class="sports-match-meta"><span><%= match.league %></span><span><%= match.status %></span></div>
+      <div class="sports-teams"><strong><%= match.home %></strong><b><%= match.score %></b><strong><%= match.away %></strong></div>
+      <dl class="sports-prices"><% match.markets.forEach(market => { %><div><dt><%= market.label %></dt><dd><%= market.value %></dd></div><% }) %></dl>
+    </article><% }) %><p class="sports-preview-note"><%= c.preview_note %></p>
+  </div>
+</div></section>
+<div class="sports-summary"><dl class="container"><% c.highlights.forEach(item => { %><div><dt><%= item.label %></dt><dd><%= item.value %></dd></div><% }) %></dl></div>

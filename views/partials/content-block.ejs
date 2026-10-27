@@ -1,0 +1,32 @@
+<% const value=block.content; const style={...sectionLayout.blockDefaults,...block.style}; %>
+<div id="<%= s.section_key + '-' + block.id %>" class="content-block content-block-<%= block.type %> block-align-<%= style.align %> block-width-<%= style.width %> block-font-<%= style.font_size %> block-pad-<%= style.padding %> block-radius-<%= style.radius %>" style="text-align:<%= style.align %>;<% if(style.color) { %>color:<%= style.color %>;--muted:<%= style.color %>;<% } %><% if(style.background) { %>background-color:<%= style.background %>;<% } %>">
+    <% if(block.type==='badge') { %>
+      <% if(value.text) { %><span class="eyebrow"><%= value.text %></span><% } %>
+    <% } else if(block.type==='buttons') { %>
+      <div class="hero-btns"><% value.items.forEach(button=>{ if(button.text) { %><a class="btn <%= button.variant==='outline'?'btn-ghost':'btn-primary' %>" href="<%= safeUrl(button.url) %>"><%= button.text %></a><% } }) %></div>
+    <% } else if(block.type==='hero_visual') { %>
+      <div class="hero-art hero-art-flex">
+        <% if(value.image) { %><img class="hero-art-background" src="<%= safeUrl(value.image) %>" alt="<%= value.image_alt %>" width="600" height="600" fetchpriority="high"><% } %>
+        <% const tags=value.tags.map(heroTags.normalize); %>
+        <div class="hero-tag-list hero-tag-top"><% tags.filter(tag=>tag.style.position==='top').forEach(tag=>{ %><%- include('hero-tag',{tag}) %><% }) %></div>
+        <div class="hero-art-media"><% if(!value.image) { %><div class="ball" role="img" aria-label="<%= value.image_alt %>"><%= value.emoji %></div><% } %><div class="hero-tag-list hero-tag-middle"><% tags.filter(tag=>tag.style.position==='middle').forEach(tag=>{ %><%- include('hero-tag',{tag}) %><% }) %></div></div>
+        <div class="hero-tag-list hero-tag-bottom"><% tags.filter(tag=>tag.style.position==='bottom').forEach(tag=>{ %><%- include('hero-tag',{tag}) %><% }) %></div>
+      </div>
+    <% } else if(block.type==='heading') { %>
+      <% if(value.level==='h1') { %><h1><%- highlight(value.text,value.highlight || '') %></h1><% } else if(value.level==='h3') { %><h3><%= value.text %></h3><% } else if(value.level==='h4') { %><h4><%= value.text %></h4><% } else { %><h2><%= value.text %></h2><% } %>
+    <% } else if(block.type==='text') { %>
+      <% value.paragraphs.forEach(paragraph=>{ %><p><%= paragraph %></p><% }) %>
+    <% } else if(block.type==='image') { %>
+      <% if(value.image) { %><img src="<%= safeUrl(value.image) %>" alt="<%= value.image_alt %>" loading="lazy"><% } %>
+    <% } else if(block.type==='cards') { %>
+      <div class="games-guide-grid"><% value.items.forEach(item=>{ %><article class="card"><h3><%= item.title %></h3><p><%= item.description %></p></article><% }) %></div>
+    <% } else if(block.type==='table') { %>
+      <div class="table-wrap"><table><thead><tr><% value.columns.forEach(column=>{ %><th scope="col"><%= column %></th><% }) %></tr></thead>
+      <tbody><% value.rows.forEach(row=>{ %><tr><% row.forEach((cell,index)=>{ %><% if(index===0) { %><th scope="row"><%= cell %></th><% } else { %><td><%= cell %></td><% } %><% }) %></tr><% }) %></tbody></table></div>
+    <% } else if(block.type==='faq') { %>
+      <div class="builder-faq"><% value.items.forEach(item=>{ %><details><summary><%= item.question %></summary><p><%= item.answer %></p></details><% }) %></div>
+    <% } else if(block.type==='button' && value.text) { %>
+      <a class="btn btn-primary" href="<%= safeUrl(value.url) %>"><%= value.text %></a>
+    <% } %>
+
+</div>

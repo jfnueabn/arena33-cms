@@ -1,0 +1,7 @@
+<% const actions = header.content.floating_actions || { enabled: true, register_text: 'Register now', login_text: 'Log in' }; %>
+<% if (actions.enabled) { %>
+<nav class="floating-actions" aria-label="<%= t('Quick account links') %>">
+  <% if (header.content.signup_button.url && actions.register_text) { %><a class="floating-action floating-register" href="<%= safeUrl(header.content.signup_button.url.startsWith('#') ? '/' + header.content.signup_button.url : header.content.signup_button.url) %>"><span><%= actions.register_text %></span></a><% } %>
+  <% if (header.content.login_button.url && actions.login_text) { %><a class="floating-action floating-login" href="<%= safeUrl(header.content.login_button.url.startsWith('#') ? '/' + header.content.login_button.url : header.content.login_button.url) %>"><span><%= actions.login_text %></span></a><% } %>
+</nav>
+<% } %>

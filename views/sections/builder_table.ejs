@@ -1,0 +1,5 @@
+<section id="<%= s.section_key %>" aria-labelledby="<%= s.section_key %>-title"><div class="container">
+  <%- include('../partials/section-head', { s }) %>
+  <div class="table-wrap"><table><thead><tr><% c.columns.forEach(column => { %><th scope="col"><%= column %></th><% }) %></tr></thead>
+  <tbody><% c.rows.forEach(row => { %><tr><% row.forEach((cell,index) => { %><% if(index===0) { %><th scope="row"><%= cell %></th><% } else { %><td><%= cell %></td><% } %><% }) %></tr><% }) %></tbody></table></div>
+</div></section>

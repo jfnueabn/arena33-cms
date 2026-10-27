@@ -1,0 +1,20 @@
+const {test}=require('node:test');
+const assert=require('node:assert/strict');
+const convert=require('../services/hero-items');
+const {valid}=require('../services/content-blocks');
+test('hero conversion preserves saved copy, buttons, image and tags as editable items',()=>{
+  const section={title:'Saved headline',eyebrow:'Saved label',subtitle:'Saved subtitle',is_visible:true,content:{highlight:'headline',description:'Saved description',primary_button:{text:'Join',url:'/join'},secondary_button:{text:'Read',url:'#about'},image:'/uploads/saved.jpg',image_alt:'Saved alt',tags:['Saved tag']}};
+  const result=convert(section);
+  assert.equal(valid(result.content),true);
+  assert.equal(result.title,'');
+  assert.equal(result.content.layout.variant,'hero');
+  const blocks=result.content.blocks;
+  assert.equal(blocks.find(b=>b.type==='heading').content.text,section.title);
+  assert.equal(blocks.find(b=>b.type==='heading').content.level,'h1');
+  assert.equal(blocks.find(b=>b.type==='heading').content.highlight,'headline');
+  assert.equal(blocks.find(b=>b.type==='hero_visual').content.image,section.content.image);
+  assert.deepEqual(blocks.find(b=>b.type==='hero_visual').content.tags,section.content.tags);
+  assert.deepEqual(blocks.find(b=>b.type==='buttons').content.items.map(b=>b.url),['/join','#about']);
+  assert.equal(blocks.find(b=>b.id==='hero-subtitle').content.paragraphs[0],'Saved subtitle');
+  assert.equal(section.title,'Saved headline');
+});

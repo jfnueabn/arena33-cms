@@ -8,6 +8,16 @@ CREATE TABLE IF NOT EXISTS admins (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Site-wide key/value settings: SEO meta, brand colours, analytics ID...
+CREATE TABLE IF NOT EXISTS landing_pages (
+  slug VARCHAR(64) PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  eyebrow VARCHAR(120) NOT NULL DEFAULT '',
+  subtitle TEXT NULL,
+  content JSON NOT NULL,
+  is_visible TINYINT(1) NOT NULL DEFAULT 1,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 CREATE TABLE IF NOT EXISTS settings (
   setting_key   VARCHAR(64) PRIMARY KEY,
   setting_value TEXT        NOT NULL,
@@ -19,12 +29,15 @@ CREATE TABLE IF NOT EXISTS settings (
 CREATE TABLE IF NOT EXISTS sections (
   id          INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   section_key VARCHAR(40)  NOT NULL UNIQUE,
+  page_slug   VARCHAR(64)  NOT NULL DEFAULT 'home',
+  template    VARCHAR(64)  NOT NULL DEFAULT '',
   name        VARCHAR(80)  NOT NULL,
   eyebrow     VARCHAR(120) NOT NULL DEFAULT '',
   title       VARCHAR(255) NOT NULL DEFAULT '',
   subtitle    TEXT         NULL,
   content     JSON         NOT NULL,
   is_visible  TINYINT(1)   NOT NULL DEFAULT 1,
+  is_archived TINYINT(1) NOT NULL DEFAULT 0,
   is_fixed    TINYINT(1)   NOT NULL DEFAULT 0,  -- header/footer: always rendered, not reorderable
   sort_order  INT          NOT NULL DEFAULT 0,
   updated_by  INT UNSIGNED NULL,

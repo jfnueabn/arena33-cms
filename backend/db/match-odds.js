@@ -3,9 +3,9 @@ module.exports = {
   "name": "Match Odds",
   "title": "Match Odds",
   "content": {
-    "seo_title": "Match Odds Explained: Decimal Odds & Market Guide | Arena33",
-    "seo_description": "Learn how to read match odds, understand decimal prices and explore common market terms with the Arena33 match odds guide.",
-    "seo_keywords": "Arena33 match odds, decimal odds explained, match markets guide Malaysia",
+    "seo_title": "Match Odds Explained: Decimal Odds & Market Guide | LV55",
+    "seo_description": "Learn how to read match odds, understand decimal prices and explore common market terms with the LV55 match odds guide.",
+    "seo_keywords": "LV55 match odds, decimal odds explained, match markets guide Malaysia",
     "og_image": "/images/sports-arena.svg",
     "robots_index": "1"
   },

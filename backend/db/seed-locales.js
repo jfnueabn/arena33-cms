@@ -1,7 +1,7 @@
 const dictionary = { ...require('../utils/ui-translations').entries, ...require('./translations.json') };
 Object.assign(dictionary, {
   Basic: ['Asas', '基础'], Elite: ['Elit', '精英'], 'per month': ['sebulan', '每月'],
-  'Arena33 – Malaysia’s #1 Fantasy Football & Esports Hub | Join Free': ['Arena33 — Bola Sepak Fantasi & Esukan Malaysia', 'Arena33 — 马来西亚梦幻足球与电竞社区']
+  'LV55 – Malaysia’s #1 Fantasy Football & Esports Hub | Join Free': ['LV55 — Bola Sepak Fantasi & Esukan Malaysia', 'LV55 — 马来西亚梦幻足球与电竞社区']
 });
 function translate(value, locale, key = '', parent = null) {
   if (typeof value === 'string') {
@@ -15,20 +15,20 @@ function translate(value, locale, key = '', parent = null) {
 }
 const pageSeo = {
   home: {
-    ms: ['Arena33 — Bola Sepak Fantasi & Esukan Malaysia', 'Bina pasukan fantasi Liga Super dan EPL, terokai esukan, sertai komuniti Arena33 dan ketahui ganjaran serta kejohanan.'],
-    zh: ['Arena33 — 马来西亚梦幻足球与电竞社区', '组建马超与英超梦幻阵容，探索电竞项目，加入 Arena33 社区，了解奖励与赛事信息。']
+    ms: ['LV55 — Bola Sepak Fantasi & Esukan Malaysia', 'Bina pasukan fantasi Liga Super dan EPL, terokai esukan, sertai komuniti LV55 dan ketahui ganjaran serta kejohanan.'],
+    zh: ['LV55 — 马来西亚梦幻足球与电竞社区', '组建马超与英超梦幻阵容，探索电竞项目，加入 LV55 社区，了解奖励与赛事信息。']
   },
   'popular-games': {
-    ms: ['Permainan Popular | Arena33 Malaysia', 'Terokai koleksi permainan Arena33. Layari kategori, ketahui gaya permainan dan cari permainan kegemaran anda.'],
-    zh: ['热门游戏 | Arena33 马来西亚', '探索 Arena33 游戏精选，按类别浏览不同玩法，发现感兴趣的热门游戏。']
+    ms: ['Permainan Popular | LV55 Malaysia', 'Terokai koleksi permainan LV55. Layari kategori, ketahui gaya permainan dan cari permainan kegemaran anda.'],
+    zh: ['热门游戏 | LV55 马来西亚', '探索 LV55 游戏精选，按类别浏览不同玩法，发现感兴趣的热门游戏。']
   },
   'welcome-bonus': {
-    ms: ['Bonus Selamat Datang & Tawaran Ahli | Arena33', 'Ketahui tawaran alu-aluan Arena33, semak kelayakan dan baca syarat bonus sebelum memilih tawaran.'],
-    zh: ['迎新优惠与会员礼遇 | Arena33', '了解 Arena33 迎新优惠，确认资格并阅读奖励条款，再选择合适的会员优惠。']
+    ms: ['Bonus Selamat Datang & Tawaran Ahli | LV55', 'Ketahui tawaran alu-aluan LV55, semak kelayakan dan baca syarat bonus sebelum memilih tawaran.'],
+    zh: ['迎新优惠与会员礼遇 | LV55', '了解 LV55 迎新优惠，确认资格并阅读奖励条款，再选择合适的会员优惠。']
   },
   'sports-betting': {
-    ms: ['Panduan Pertaruhan Sukan Malaysia | Arena33', 'Terokai bola sepak, badminton dan esukan. Fahami jenis pasaran serta maklumat sukan di Arena33.'],
-    zh: ['体育博彩指南：足球、羽毛球与电竞 | Arena33', '探索体育类别，了解常见市场类型，阅读面向马来西亚体育爱好者的 Arena33 体育指南。']
+    ms: ['Panduan Pertaruhan Sukan Malaysia | LV55', 'Terokai bola sepak, badminton dan esukan. Fahami jenis pasaran serta maklumat sukan di LV55.'],
+    zh: ['体育博彩指南：足球、羽毛球与电竞 | LV55', '探索体育类别，了解常见市场类型，阅读面向马来西亚体育爱好者的 LV55 体育指南。']
   }
 };
 module.exports = async function seedLocales(conn) {

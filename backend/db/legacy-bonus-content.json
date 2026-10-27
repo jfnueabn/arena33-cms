@@ -1,6 +1,6 @@
 {
   "bonus_hero": {
-    "title": "A warm welcome to Arena33",
+    "title": "A warm welcome to LV55",
     "eyebrow": "New member offers",
     "subtitle": "",
     "content": {
@@ -14,10 +14,10 @@
         "url": "#footer"
       },
       "image": "",
-      "image_alt": "Arena33 welcome rewards",
+      "image_alt": "LV55 welcome rewards",
       "card_label": "WELCOME BONUS",
       "card_value": "More to discover",
-      "card_description": "Explore rewards for your first steps with Arena33.",
+      "card_description": "Explore rewards for your first steps with LV55.",
       "highlights": [
         {
           "label": "Eligibility",
@@ -40,7 +40,7 @@
     "eyebrow": "Offer collection",
     "subtitle": "Compare the options and read the details before choosing.",
     "content": {
-      "notice": "Sample offers for this preview. Confirm availability and full terms with Arena33 before taking part.",
+      "notice": "Sample offers for this preview. Confirm availability and full terms with LV55 before taking part.",
       "offers": [
         {
           "title": "Welcome offer",
@@ -196,7 +196,7 @@
         },
         {
           "question": "Are the offers on this page currently available?",
-          "answer": "The starting offers on this page are examples. Confirm the current offer details and availability with Arena33 before taking part."
+          "answer": "The starting offers on this page are examples. Confirm the current offer details and availability with LV55 before taking part."
         },
         {
           "question": "Where do I claim a bonus?",
@@ -216,7 +216,7 @@
     "subtitle": "",
     "content": {
       "anchor": "bonus-contact",
-      "description": "Contact Arena33 to confirm the latest offers and the terms that apply.",
+      "description": "Contact LV55 to confirm the latest offers and the terms that apply.",
       "button": {
         "text": "Contact us",
         "url": "#footer"

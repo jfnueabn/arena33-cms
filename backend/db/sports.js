@@ -3,9 +3,9 @@ module.exports = {
   "name": "Sports",
   "title": "Sports",
   "content": {
-    "seo_title": "Sports Guide: Football, Badminton, Basketball & More | Arena33",
-    "seo_description": "Explore football, badminton, basketball, tennis and esports with Arena33. Discover competition formats, key terms and useful guides for Malaysian sports fans.",
-    "seo_keywords": "Arena33 sports, sports guide Malaysia, football, badminton, basketball, tennis, esports",
+    "seo_title": "Sports Guide: Football, Badminton, Basketball & More | LV55",
+    "seo_description": "Explore football, badminton, basketball, tennis and esports with LV55. Discover competition formats, key terms and useful guides for Malaysian sports fans.",
+    "seo_keywords": "LV55 sports, sports guide Malaysia, football, badminton, basketball, tennis, esports",
     "og_image": "/images/sports-arena.svg",
     "robots_index": "1"
   },

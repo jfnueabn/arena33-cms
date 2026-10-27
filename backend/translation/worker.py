@@ -14,7 +14,7 @@ sys.stdout.reconfigure(encoding='utf-8')
 model_root = Path(os.environ.get('TRANSLATION_MODEL_DIR') or Path(__file__).resolve().parents[2] / '.translation-runtime' / 'models')
 models = {}
 simplified = OpenCC('t2s')
-protected = re.compile(r'Arena33|RM\s*\d[\d,.]*|\d[\d,.]*%?|\{[A-Za-z_]+\}|https?://\S+|[\w.+-]+@[\w.-]+', re.IGNORECASE)
+protected = re.compile(r'LV55|RM\s*\d[\d,.]*|\d[\d,.]*%?|\{[A-Za-z_]+\}|https?://\S+|[\w.+-]+@[\w.-]+', re.IGNORECASE)
 
 def load(locale):
     if locale not in ('ms', 'zh'):

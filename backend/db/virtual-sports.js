@@ -3,9 +3,9 @@ module.exports = {
   "name": "Virtual Sports",
   "title": "Virtual Sports",
   "content": {
-    "seo_title": "Virtual Sports Guide: Football, Racing & More | Arena33",
+    "seo_title": "Virtual Sports Guide: Football, Racing & More | LV55",
     "seo_description": "Explore virtual football, racing and simulated sports. Learn how virtual events differ from real fixtures and what to check before taking part.",
-    "seo_keywords": "Arena33 virtual sports, virtual football, simulated sports guide Malaysia",
+    "seo_keywords": "LV55 virtual sports, virtual football, simulated sports guide Malaysia",
     "og_image": "/images/sports-arena.svg",
     "robots_index": "1"
   },
@@ -261,7 +261,7 @@ module.exports = {
       "page_slug": "virtual-sports",
       "template": "bonus_cta",
       "name": "Call to Action",
-      "title": "Keep exploring with Arena33",
+      "title": "Keep exploring with LV55",
       "content": {
         "description": "Browse our sports guide or contact the team to learn more about the available formats.",
         "button": {

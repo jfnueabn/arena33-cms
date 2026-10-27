@@ -8,7 +8,7 @@ function shouldTranslate(text, key) {
   if (excluded.has(key) || !/[a-zA-Z]{2}/.test(text)) return false;
   if (/^(?:https?:|mailto:|tel:|\/|#)/.test(text) && key !== 'period') return false;
   if (/^[\w.+-]+@[\w.-]+\.[a-z]+$/i.test(text) || /^(?:RM\s*)?[\d.,%×+–—\s]+$/i.test(text)) return false;
-  return !/^(?:Arena33|Arena|MLBB|Dota 2|Valorant|EPL|ATP|WTA|NBA|FPX|VIP|GrabPay|Boost|ShopeePay|DuitNow|Maybank2u|CIMB Clicks|Touch [’']n Go)$/.test(text);
+  return !/^(?:LV55|Arena|MLBB|Dota 2|Valorant|EPL|ATP|WTA|NBA|FPX|VIP|GrabPay|Boost|ShopeePay|DuitNow|Maybank2u|CIMB Clicks|Touch [’']n Go)$/.test(text);
 }
 
 async function translateDocument(source, locale, provider = worker.translateBatch) {

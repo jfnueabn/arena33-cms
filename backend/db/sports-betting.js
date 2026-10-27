@@ -7,9 +7,9 @@ const section = (key, name, template, title, content, eyebrow = '', subtitle = '
 module.exports = {
   slug, name: 'Sports Betting', title: 'Sports Betting',
   content: {
-    seo_title: 'Sports Betting Guide: Football, Badminton & Esports | Arena33',
-    seo_description: 'Explore sports categories, understand common market types, and read Arena33 sports betting information for Malaysian sports fans.',
-    seo_keywords: 'Arena33 sports betting, football guide Malaysia, badminton, esports markets',
+    seo_title: 'Sports Betting Guide: Football, Badminton & Esports | LV55',
+    seo_description: 'Explore sports categories, understand common market types, and read LV55 sports betting information for Malaysian sports fans.',
+    seo_keywords: 'LV55 sports betting, football guide Malaysia, badminton, esports markets',
     og_image: '/images/sports-arena.svg', robots_index: '1'
   },
   sections: [
@@ -59,7 +59,7 @@ module.exports = {
       ]
     }, 'Getting started'),
     section('mobile', 'Mobile Experience', 'bonus_about', 'Follow the information wherever you are', {
-      paragraphs: ['The landing page adapts to phones, tablets and larger screens. Sports cards, match previews and guides remain easy to browse without an app download.', 'For account access, current events or payment questions, use the official links supplied by Arena33 or contact the team.'],
+      paragraphs: ['The landing page adapts to phones, tablets and larger screens. Sports cards, match previews and guides remain easy to browse without an app download.', 'For account access, current events or payment questions, use the official links supplied by LV55 or contact the team.'],
       image: '/images/sports-arena.svg', image_alt: 'Sports arena illustration', detail_title: 'Explore offers before you decide', detail_description: 'The Welcome Bonus page introduces member promotions and their terms. Confirm the current details before accepting an offer.'
     }, 'Made for mobile'),
     section('responsible', 'Responsible Participation', 'bonus_terms', 'Keep sport enjoyable', {
@@ -70,7 +70,7 @@ module.exports = {
         { question: 'Are the match scores and odds on this page live?', answer: 'No. The match panel is an editable illustration. Check the official destination for current events, scores, prices and availability.' },
         { question: 'Can I place a bet on this page?', answer: 'No. This page provides information about sports and market types. It has no bet slip, account balance or transaction processing.' },
         { question: 'What should I check before choosing a market?', answer: 'Read the sport rules, market description, odds format, settlement period and cancellation rules. Outcomes are never guaranteed.' },
-        { question: 'Where can I find current offers?', answer: 'Visit the Welcome Bonus page for promotional information and confirm the latest terms with Arena33.' },
+        { question: 'Where can I find current offers?', answer: 'Visit the Welcome Bonus page for promotional information and confirm the latest terms with LV55.' },
         { question: 'What happens if an event is postponed?', answer: 'Settlement depends on the rules for that specific event and market. Check those rules with the official provider.' }
       ]
     }, 'Frequently asked questions'),

@@ -8,7 +8,7 @@ module.exports = function createSession(store) {
     throw new Error('SESSION_SECRET must be set in production');
   }
   return session({
-    name: 'arena33.sid',
+    name: 'lv55.sid',
     secret: process.env.SESSION_SECRET || crypto.randomBytes(32).toString('hex'),
     store: store || new MySQLStore({ ...dbConfig.connection, database: dbConfig.dbName, createDatabaseTable: true }),
     resave: false,

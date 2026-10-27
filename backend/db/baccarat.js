@@ -3,9 +3,9 @@ module.exports = {
   "name": "Baccarat",
   "title": "Baccarat",
   "content": {
-    "seo_title": "Baccarat Guide: Card Values, Rules & Table Formats | Arena33",
-    "seo_description": "Discover baccarat with Arena33. Learn card values, understand Player and Banker hands, and explore table formats and common questions.",
-    "seo_keywords": "Arena33 baccarat, baccarat guide Malaysia, baccarat card values, Player Banker Tie",
+    "seo_title": "Baccarat Guide: Card Values, Rules & Table Formats | LV55",
+    "seo_description": "Discover baccarat with LV55. Learn card values, understand Player and Banker hands, and explore table formats and common questions.",
+    "seo_keywords": "LV55 baccarat, baccarat guide Malaysia, baccarat card values, Player Banker Tie",
     "og_image": "/images/baccarat-table.svg",
     "robots_index": "1"
   },

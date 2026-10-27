@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Admin Login · Arena33</title>
+  <title>Admin Login · LV55</title>
   <link rel="stylesheet" href="<%= assetUrl('admin/admin.css') %>">
 </head>
 <body class="login-page">
   <form class="login-card" method="post" action="/admin/login">
-    <div class="brand">Arena<span>33</span> <small>Admin</small></div>
+    <div class="brand"><%= brand.text %><span><%= brand.accent %></span> <small>Admin</small></div>
     <h1>Sign in</h1>
     <p class="muted">Manage your landing pages and site content.</p>
     <% if (error) { %><div class="alert"><%= error %></div><% } %>

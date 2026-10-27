@@ -7,22 +7,22 @@ const section = (key, name, template, title, content, eyebrow = '', subtitle = '
 const page = {
   slug, name: 'Welcome Bonus', title: 'Welcome Bonus',
   content: {
-    seo_title: 'Welcome Bonus & Member Offers | Arena33 Malaysia',
-    seo_description: 'Explore Arena33 welcome offers, learn how to check eligibility, and review bonus terms before choosing an offer.',
-    seo_keywords: 'Arena33 welcome bonus, member offers, bonus information Malaysia',
+    seo_title: 'Welcome Bonus & Member Offers | LV55 Malaysia',
+    seo_description: 'Explore LV55 welcome offers, learn how to check eligibility, and review bonus terms before choosing an offer.',
+    seo_keywords: 'LV55 welcome bonus, member offers, bonus information Malaysia',
     og_image: '', robots_index: '1'
   },
   sections: [
-    section('hero', 'Hero', 'bonus_hero', 'A warm welcome to Arena33', {
+    section('hero', 'Hero', 'bonus_hero', 'A warm welcome to LV55', {
       description: 'Discover new member offers and find the details that matter before you get started.',
       primary_button: { text: 'Explore offers', url: '#bonus-offers' },
       secondary_button: { text: 'Contact us', url: '#footer' },
-      image: '', image_alt: 'Arena33 welcome rewards',
-      card_label: 'WELCOME BONUS', card_value: 'More to discover', card_description: 'Explore rewards for your first steps with Arena33.',
+      image: '', image_alt: 'LV55 welcome rewards',
+      card_label: 'WELCOME BONUS', card_value: 'More to discover', card_description: 'Explore rewards for your first steps with LV55.',
       highlights: [{ label: 'Eligibility', value: 'New members' }, { label: 'Offer details', value: 'See terms' }, { label: 'Questions?', value: 'Contact us' }]
     }, 'New member offers'),
     section('offers', 'Bonus Types', 'bonus_offers', 'Explore member offers', {
-      notice: 'Sample offers for this preview. Confirm availability and full terms with Arena33 before taking part.',
+      notice: 'Sample offers for this preview. Confirm availability and full terms with LV55 before taking part.',
       offers: [
         { title: 'Welcome offer', icon: '🎁', badge: 'New members', benefit: 'Start with a welcome reward', description: 'Review the welcome offer and its eligibility requirements before joining.', image: '', image_alt: 'Welcome offer', button: { text: 'Ask about this offer', url: '#footer' }, visible: true },
         { title: 'Returning member offer', icon: '✨', badge: 'Discover', benefit: 'Something for your next visit', description: 'Ask which returning member promotions are currently available.', image: '', image_alt: 'Returning member offer', button: { text: 'Find out more', url: '#footer' }, visible: true },
@@ -57,20 +57,20 @@ const page = {
     section('faq', 'FAQ', 'faq', 'Welcome Bonus questions', {
       items: [
         { question: 'How do I find out whether I qualify?', answer: 'Read the eligibility rules for the specific offer. Contact support if you are unsure whether the requirements apply to your account.' },
-        { question: 'Are the offers on this page currently available?', answer: 'The starting offers on this page are examples. Confirm the current offer details and availability with Arena33 before taking part.' },
+        { question: 'Are the offers on this page currently available?', answer: 'The starting offers on this page are examples. Confirm the current offer details and availability with LV55 before taking part.' },
         { question: 'Where do I claim a bonus?', answer: 'Follow the official link or instructions provided for the offer. This landing page provides information and does not process claims or payments.' },
         { question: 'What should I read before accepting an offer?', answer: 'Check eligibility, qualifying requirements, restrictions, benefit limits, play-through conditions and expiry dates.' }
       ]
     }, 'Need more information?', 'Find answers before you choose an offer.'),
     section('cta', 'Call to Action', 'cta', 'Have a question about an offer?', {
-      anchor: 'bonus-contact', description: 'Contact Arena33 to confirm the latest offers and the terms that apply.', button: { text: 'Contact us', url: '#footer' }
+      anchor: 'bonus-contact', description: 'Contact LV55 to confirm the latest offers and the terms that apply.', button: { text: 'Contact us', url: '#footer' }
     })
   ]
 };
 
 const find = key => page.sections.find(s => s.section_key === `bonus_${key}`);
 Object.assign(find('hero'), {
-  title: 'Welcome Bonus — a bigger start with Arena33',
+  title: 'Welcome Bonus — a bigger start with LV55',
   eyebrow: 'Exclusive new member offers'
 });
 Object.assign(find('hero').content, {
@@ -100,7 +100,7 @@ const figures = [
   ['By tier', 'By tier', 'By tier', 'See terms', 'Flexible'], ['—', '100 spins', 'RM 30', '×10', '7 days']
 ];
 find('comparison').content.rows = offers.map((offer, i) => ({ offer: offer[0], eligibility: i === 0 ? 'New members' : 'Eligible members', benefit: figures[i][1], requirements: figures[i][3], validity: figures[i][4], percentage: figures[i][0], minimum_deposit: figures[i][2] }));
-find('comparison').content.note = 'Illustrative figures for the preview, not confirmed Arena33 offers. Replace these details with your approved promotion terms before publishing.';
+find('comparison').content.note = 'Illustrative figures for the preview, not confirmed LV55 offers. Replace these details with your approved promotion terms before publishing.';
 find('methods').content.methods = ['Touch ’n Go', 'GrabPay', 'Boost', 'ShopeePay', 'DuitNow', 'FPX', 'Maybank2u', 'CIMB Clicks'];
 find('methods').content.note = 'Examples of local payment methods. Confirm which methods are supported and eligible for each offer.';
 find('cta').template = 'bonus_cta';

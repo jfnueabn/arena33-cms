@@ -24,6 +24,6 @@ const connection = {
   ssl: sslOptions()
 };
 
-const dbName = process.env.DB_NAME || 'arena33';
+const dbName = process.env.DB_NAME || 'lv55';
 
 module.exports = { connection, dbName };

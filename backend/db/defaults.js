@@ -2,10 +2,10 @@
 // "shape" the admin editor uses when adding new list items.
 
 const settings = {
-  site_name: 'Arena33',
-  seo_title: "Arena33 – Malaysia's #1 Fantasy Football & Esports Hub | Join Free",
-  seo_description: "Arena33 is Malaysia's free fantasy football and esports community. Build your Liga Super & EPL dream team, join weekly tournaments, and win rewards. Sign up free today.",
-  seo_keywords: 'fantasy football Malaysia, Liga Super fantasy, EPL fantasy, esports Malaysia, free tournaments, Arena33',
+  site_name: 'LV55',
+  seo_title: "LV55 – Malaysia's #1 Fantasy Football & Esports Hub | Join Free",
+  seo_description: "LV55 is Malaysia's free fantasy football and esports community. Build your Liga Super & EPL dream team, join weekly tournaments, and win rewards. Sign up free today.",
+  seo_keywords: 'fantasy football Malaysia, Liga Super fantasy, EPL fantasy, esports Malaysia, free tournaments, LV55',
   // Render sets RENDER_EXTERNAL_URL automatically; SITE_URL overrides it (e.g. a custom domain).
   canonical_url: process.env.SITE_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:3000/',
   og_image: '',
@@ -21,7 +21,7 @@ const sections = [
     section_key: 'header', name: 'Header & navigation', is_fixed: true,
     eyebrow: '', title: '', subtitle: '',
     content: {
-      logo_text: 'Arena', logo_accent: '33', logo_image: '',
+      logo_text: 'LV', logo_accent: '55', logo_image: '',
       nav: [
         { label: 'Home', url: '/' },
         { label: 'Popular Games', url: '/popular-games' },
@@ -36,7 +36,7 @@ const sections = [
   {
     section_key: 'hero', name: 'Hero',
     eyebrow: '⚡ #1 Fantasy Platform in Malaysia',
-    title: "Arena33 – Malaysia's Fantasy Football & Esports Hub",
+    title: "LV55 – Malaysia's Fantasy Football & Esports Hub",
     subtitle: '',
     content: {
       highlight: "Malaysia's Fantasy Football",
@@ -65,7 +65,7 @@ const sections = [
   {
     section_key: 'promo', name: 'Promo banner',
     eyebrow: 'Latest Promotions', title: 'Exclusive Offers & Rewards',
-    subtitle: 'Fresh rewards every week for the Arena33 community.',
+    subtitle: 'Fresh rewards every week for the LV55 community.',
     content: {
       banner_title: 'Welcome Pack: 3 Free Premium Weeks',
       banner_text: 'Sign up this month and unlock premium player stats, captain boosts and private leagues — free.',
@@ -76,10 +76,10 @@ const sections = [
   },
   {
     section_key: 'about', name: 'About',
-    eyebrow: 'About Arena33', title: 'A World-Class Fantasy Platform, Built for Malaysia', subtitle: '',
+    eyebrow: 'About LV55', title: 'A World-Class Fantasy Platform, Built for Malaysia', subtitle: '',
     content: {
       paragraphs: [
-        "Arena33 is more than a fantasy game. We built it with one goal: give every Malaysian football and esports fan a smooth, fair and exciting way to prove their knowledge — from Kuala Lumpur to Kota Bharu and Miri.",
+        "LV55 is more than a fantasy game. We built it with one goal: give every Malaysian football and esports fan a smooth, fair and exciting way to prove their knowledge — from Kuala Lumpur to Kota Bharu and Miri.",
         'Live data, local leagues and community features come together in one place, available in English and Bahasa Melayu.'
       ],
       button: { text: 'Join Us Today', url: '#signup' },
@@ -90,7 +90,7 @@ const sections = [
   },
   {
     section_key: 'features', name: 'Features',
-    eyebrow: 'Our Advantages', title: 'Why Choose Arena33?',
+    eyebrow: 'Our Advantages', title: 'Why Choose LV55?',
     subtitle: 'Everything a fantasy fan needs, in one fast and friendly platform.',
     content: {
       items: [
@@ -107,7 +107,7 @@ const sections = [
   },
   {
     section_key: 'countdown', name: 'Countdown event',
-    eyebrow: 'Limited Event', title: 'Arena33 Mega Football Cup Starts In', subtitle: '',
+    eyebrow: 'Limited Event', title: 'LV55 Mega Football Cup Starts In', subtitle: '',
     content: {
       description: 'Compete across Liga Super & EPL fixtures for a prize pool of merchandise and VIP match-day experiences.',
       target_date: '2026-11-15T20:00',
@@ -116,13 +116,13 @@ const sections = [
   },
   {
     section_key: 'steps', name: 'How it works',
-    eyebrow: 'Getting Started', title: 'How to Start on Arena33',
+    eyebrow: 'Getting Started', title: 'How to Start on LV55',
     subtitle: 'Just 4 simple steps to begin your fantasy journey.',
     content: {
       anchor: 'how',
       items: [
         { title: 'Create Account', description: 'Sign up with your name, phone and email in under 2 minutes.' },
-        { title: 'Log In', description: 'Access Arena33 securely from any device, any time.' },
+        { title: 'Log In', description: 'Access LV55 securely from any device, any time.' },
         { title: 'Build Your Squad', description: 'Pick 11 players within your budget and choose a captain.' },
         { title: 'Compete & Win', description: 'Join leagues, track live points and climb the leaderboard.' }
       ]
@@ -130,10 +130,10 @@ const sections = [
   },
   {
     section_key: 'comparison', name: 'Comparison table',
-    eyebrow: 'Comparison', title: 'Arena33 vs Other Platforms',
-    subtitle: 'See why Malaysian fans are switching to Arena33.',
+    eyebrow: 'Comparison', title: 'LV55 vs Other Platforms',
+    subtitle: 'See why Malaysian fans are switching to LV55.',
     content: {
-      our_label: 'Arena33', other_label: 'Others',
+      our_label: 'LV55', other_label: 'Others',
       rows: [
         { feature: 'Full Bahasa Melayu support', ours: '✓ Yes', others: '✕ No' },
         { feature: 'Liga Super Malaysia coverage', ours: '✓ Yes', others: '✕ No' },
@@ -164,7 +164,7 @@ const sections = [
   },
   {
     section_key: 'wheel', name: 'Daily bonus wheel',
-    eyebrow: 'Free Every Day', title: 'Arena33 Daily Bonus Wheel',
+    eyebrow: 'Free Every Day', title: 'LV55 Daily Bonus Wheel',
     subtitle: 'Spin once a day for free in-game boosts — exclusive to registered members.',
     content: {
       button_text: 'Spin Now!',
@@ -198,9 +198,9 @@ const sections = [
     eyebrow: 'FAQ', title: 'Frequently Asked Questions', subtitle: '',
     content: {
       items: [
-        { question: 'Is Arena33 free to join?', answer: 'Yes. Creating an account and joining the weekly free tournaments costs nothing.' },
+        { question: 'Is LV55 free to join?', answer: 'Yes. Creating an account and joining the weekly free tournaments costs nothing.' },
         { question: 'Which leagues can I play?', answer: 'Malaysia Super League, the English Premier League, the AFC Champions League and popular esports titles such as MLBB and Valorant.' },
-        { question: 'Can I play on my phone?', answer: 'Yes. Arena33 works in any mobile browser on iOS and Android with no app download required.' },
+        { question: 'Can I play on my phone?', answer: 'Yes. LV55 works in any mobile browser on iOS and Android with no app download required.' },
         { question: 'How are rewards delivered?', answer: 'Rewards such as merchandise, match tickets and e-vouchers are sent to winners within 7 working days.' }
       ]
     }
@@ -210,7 +210,7 @@ const sections = [
     eyebrow: '', title: 'Ready to Build Your Dream Team?', subtitle: '',
     content: {
       anchor: 'signup',
-      description: "Join over 120,000 Malaysian fans on Arena33. It's free.",
+      description: "Join over 120,000 Malaysian fans on LV55. It's free.",
       button: { text: 'Create Free Account', url: '#signup' }
     }
   },
@@ -219,13 +219,13 @@ const sections = [
     eyebrow: '', title: '', subtitle: '',
     content: {
       about_text: "Malaysia's trusted fantasy football and esports community. Fast, fair and always with you, 24/7.",
-      contact_email: 'support@arena33.example',
+      contact_email: 'support@lv55.example',
       columns: [
         { heading: 'NAVIGATION', links: [{ label: 'Home', url: '/' }, { label: 'Features', url: '#features' }, { label: 'Plans', url: '#plans' }, { label: 'How It Works', url: '#how' }] },
         { heading: 'ACCOUNT', links: [{ label: 'Sign Up', url: '#signup' }, { label: 'Log In', url: '#login' }, { label: 'FAQ', url: '#faq' }] },
         { heading: 'INFO', links: [{ label: 'About Us', url: '#about' }, { label: 'Terms & Conditions', url: '/terms' }, { label: 'Privacy Policy', url: '/privacy' }, { label: 'Sitemap', url: '/sitemap.xml' }] }
       ],
-      copyright: '© {year} Arena33. All rights reserved. Demo website built for an interview assessment.'
+      copyright: '© {year} LV55. All rights reserved. Demo website built for an interview assessment.'
     }
   }
 ];

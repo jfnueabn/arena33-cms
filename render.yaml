@@ -2,7 +2,7 @@
 # MySQL is hosted outside Render (e.g. Aiven); fill in the DB_* values when prompted.
 services:
   - type: web
-    name: arena33
+    name: lv55
     runtime: node
     plan: free
     # Same part of the world as the Aiven database (Asia Pacific) for faster queries.
@@ -29,7 +29,7 @@ services:
       - key: DB_PASSWORD
         sync: false
       - key: DB_NAME
-        value: arena33
+        value: lv55
       - key: DB_CA_CERT
         sync: false
       - key: ADMIN_USERNAME

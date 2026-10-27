@@ -1,4 +1,4 @@
--- Arena33 CMS schema (MySQL 8 / MariaDB 10.4+)
+-- LV55 CMS schema (MySQL 8 / MariaDB 10.4+)
 
 CREATE TABLE IF NOT EXISTS admins (
   id            INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

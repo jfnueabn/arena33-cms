@@ -1,4 +1,4 @@
-# Arena33 — SEO landing page + admin CMS
+# LV55 — SEO landing page + admin CMS
 
 A server-rendered SEO landing page whose content is fully editable from an admin panel.
 Stack: **Node.js · Express · MySQL · EJS** (no frontend framework).
@@ -17,7 +17,7 @@ npm start                 # http://localhost:3000   admin: http://localhost:3000
 ## Project structure
 
 ```text
-arena33-cms/
+lv55-cms/
 ├── backend/
 │   ├── server.js       # Starts the HTTP server
 │   ├── app.js          # Express configuration and route registration
@@ -226,7 +226,7 @@ Render has no managed MySQL, so the database runs on Aiven's free MySQL plan.
    - `DB_HOST`, `DB_PORT`, `DB_USER`, `DB_PASSWORD` — from Aiven
    - `DB_CA_CERT` — paste the full contents of the CA certificate file
    - `ADMIN_PASSWORD` — the password for the `/admin` login (min 6 characters)
-3. Deploy. On start, `npm run db:setup` creates the `arena33` database, tables, content and admin.
+3. Deploy. On start, `npm run db:setup` creates the `lv55` database, tables, content and admin.
 4. Open `https://<your-app>.onrender.com/admin`, log in, and check **Site settings & branding → Site canonical URL**.
 
 **Changing the admin password later:** use *Change password* inside the admin, or change `ADMIN_PASSWORD`

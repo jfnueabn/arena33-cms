@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <title>Dashboard · Arena33 Admin</title>
+  <title>Dashboard · LV55 Admin</title>
   <link rel="stylesheet" href="<%= assetUrl('admin/admin.css') %>">
 </head>
 <body>
   <header class="topbar">
     <button class="icon-btn only-mobile" id="sideToggle" aria-label="Toggle menu">☰</button>
-    <div class="brand">Arena<span>33</span> <small>Admin</small></div>
+    <div class="brand" id="adminBrand"><%= brand.text %><span><%= brand.accent %></span> <small>Admin</small></div>
     <div class="top-actions">
       <button class="btn ghost" id="togglePreview">Hide preview</button>
       <a class="btn ghost" id="viewSite" href="/" target="_blank" rel="noopener">View page ↗</a>

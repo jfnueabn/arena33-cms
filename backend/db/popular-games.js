@@ -1,11 +1,11 @@
 module.exports = {
   slug: 'popular-games', name: 'Popular Games', eyebrow: 'Discover your next favourite',
-  title: 'Popular Games at Arena33', subtitle: 'Explore game categories, discover familiar favourites, and find your next experience.',
+  title: 'Popular Games at LV55', subtitle: 'Explore game categories, discover familiar favourites, and find your next experience.',
   content: {
-    seo_title: 'Popular Games | Arena33 Malaysia',
-    seo_description: 'Explore the Arena33 game collection. Browse categories, compare game styles, and discover popular titles in one place.',
-    seo_keywords: 'Arena33 popular games, game collection Malaysia, online games',
-    image: '', image_alt: 'Arena33 popular game collection',
+    seo_title: 'Popular Games | LV55 Malaysia',
+    seo_description: 'Explore the LV55 game collection. Browse categories, compare game styles, and discover popular titles in one place.',
+    seo_keywords: 'LV55 popular games, game collection Malaysia, online games',
+    image: '', image_alt: 'LV55 popular game collection',
     primary_button: { text: 'Explore games', url: '#game-collection' },
     secondary_button: { text: 'Contact us', url: '#footer' },
     collection_title: 'Find your favourite game',
@@ -19,7 +19,7 @@ module.exports = {
       { name: 'Esports', category: 'Sports & Esports', icon: '🎮', description: 'Discover competitive gaming and team-based events.', badge: 'Explore', image: '', image_alt: 'Esports event', url: '', visible: true }
     ],
     about_title: 'A collection built for discovery',
-    paragraphs: ['Explore different game styles from one convenient landing page. Use the category filters to narrow the collection and read a short introduction to each title.', 'Available titles and destinations are managed by Arena33. Review the information on the linked platform before taking part.'],
+    paragraphs: ['Explore different game styles from one convenient landing page. Use the category filters to narrow the collection and read a short introduction to each title.', 'Available titles and destinations are managed by LV55. Review the information on the linked platform before taking part.'],
     providers_title: 'Game providers', providers: [],
     guides: [
       { title: 'Explore slots', description: 'Discover different reel layouts, visual themes, and game features. Read the rules for each title before you begin.' },

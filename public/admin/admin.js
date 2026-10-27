@@ -1,4 +1,4 @@
-// Arena33 admin dashboard.
+// LV55 admin dashboard.
 // Section forms are generated from each section's JSON `content`, so adding a
 // new field to db/defaults.js automatically gives it an input here.
 
@@ -514,6 +514,12 @@ function listField(key, arr, path) {
 }
 
 // ---------- Save / discard / history ----------
+function updateBrand({ logo_text = '', logo_accent = '' } = {}) {
+  const el = $('#adminBrand');
+  if (!el || !(logo_text || logo_accent)) return;
+  el.replaceChildren(logo_text, h('span', {}, logo_accent), ' ', h('small', {}, 'Admin'));
+}
+
 async function save() {
   if (!state.dirty) return;
   if(state.current==='header') {
@@ -541,6 +547,7 @@ async function save() {
       if(result.sections)state.sections=result.sections;
       replaceSection(section);
       state.draft = clone(section);
+      if (section.section_key === 'header') updateBrand(section.content);
     }
     state.dirty = false;
     renderSidebar();
@@ -601,11 +608,11 @@ const applyPreviewPref = hide => {
   layout.classList.toggle('no-preview', hide);
   $('#togglePreview').textContent = hide ? 'Show preview' : 'Hide preview';
 };
-try { applyPreviewPref(localStorage.getItem('arena33.hidePreview') === '1'); } catch { /* storage blocked */ }
+try { applyPreviewPref(localStorage.getItem('lv55.hidePreview') === '1'); } catch { /* storage blocked */ }
 $('#togglePreview').addEventListener('click', () => {
   const hide = !layout.classList.contains('no-preview');
   applyPreviewPref(hide);
-  try { localStorage.setItem('arena33.hidePreview', hide ? '1' : '0'); } catch { /* storage blocked */ }
+  try { localStorage.setItem('lv55.hidePreview', hide ? '1' : '0'); } catch { /* storage blocked */ }
 });
 
 const pwDialog = $('#pwDialog');
@@ -679,7 +686,7 @@ function selectBuilderResult(section) {
   builderDialog.close();
   openItem(section.section_key);
   $('#layout').classList.remove('no-preview');$('#togglePreview').textContent='Hide preview';
-  try { localStorage.setItem('arena33.hidePreview','0'); } catch { /* storage unavailable */ }
+  try { localStorage.setItem('lv55.hidePreview','0'); } catch { /* storage unavailable */ }
 }
 async function createHomeSection(body) {
   if(!canLeaveDraft())return;

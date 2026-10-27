@@ -233,6 +233,35 @@ Render has no managed MySQL, so the database runs on Aiven's free MySQL plan.
 in Render's Environment tab, add `ADMIN_RESET_PASSWORD=true`, redeploy once, then remove that variable
 (otherwise every restart resets the password). Locally: edit `.env`, then run `npm run admin:password`.
 
+**Creating pages:** Add an internal link in **Header & navigation** and save. The CMS creates
+a published page with one blank section and lists it in **Editing page**, in header order.
+Leave the link URL empty to generate it from the English label, or enter a unique /page-url.
+External links and #anchors do not create pages. Duplicate destinations are rejected. Use
+**+ Add section** and **+ Add content** to build the page. Existing content is retained when
+linking an existing page. Only header-linked pages appear in the editing selector.
+
+**Homepage content:** All homepage body sections use the content item builder. Setup converts legacy
+sections, translations and revision history once, preserving their saved copy and backing up originals
+in `cms_migration_backups`. Shared header and footer remain in their shared editors. Use **+ Add content**
+to search the reusable content types; the picker is sorted A–Z and scrolls independently. Countdown and
+bonus wheel items support multiple instances on a page. Existing `#how` and `#signup` links are preserved.
+
+**Popular Games:** All seven sections use the same item builder. Game collections, collection visuals,
+provider lists and notices are reusable items in the searchable content picker. Category filters are
+scoped to each collection so duplicated collections work independently. Existing game visibility,
+destinations, copy, translations and revision history are retained, with migration backups. Empty
+provider lists stay hidden from the public page. The `#game-collection` anchor is preserved.
+
+**Welcome Bonus:** All nine sections use items, including reusable reward cards, offer collections,
+breadcrumbs and bullet lists. The comparison table has editable columns, with eligibility retained
+as a separate column. Setup preserves saved content, translations, revision history and offer/terms
+anchors, and backs up the original sections before converting them.
+
+**Remaining landing pages:** Sports Betting, Virtual Sports, Sports, Match Odds and Baccarat use
+the item builder throughout. Match previews, highlights and sport category cards are reusable items.
+Setup backs up and converts their legacy content, translations and history once. Existing section
+anchors and destination links are retained; the shared header and footer keep their shared editors.
+
 Notes for the free plan: the app sleeps after ~15 minutes idle (first visit takes ~30–60 s to wake),
 and the disk is temporary, so **uploaded images are lost on each redeploy** — use image URLs
 (e.g. from an image host) for anything that must stay.

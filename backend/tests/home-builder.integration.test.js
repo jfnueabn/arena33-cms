@@ -21,7 +21,7 @@ test('homepage builder creates, previews, edits, duplicates, reorders, removes a
       return data;
     }
     assert.equal((await fetch(root+'/api/admin/pages/home/section-builder')).status,401);
-    await api('POST','/pages/sports/sections',{template:'builder_text'},400);
+    await api('POST','/pages/page-that-does-not-exist/sections',{template:'builder_text'},404);
     await api('POST','/pages/home/sections',{template:'../../index'},400);
     await api('DELETE','/pages/home/sections/header',undefined,400);
     const {templates}=await api('GET','/pages/home/section-builder');
@@ -29,6 +29,7 @@ test('homepage builder creates, previews, edits, duplicates, reorders, removes a
     for(const template of templates) {
       const result=await api('POST','/pages/home/sections',{template:template.template},201);
       const section=result.section;keys.push(section.section_key);
+      assert.equal(section.template,'builder_section');
       assert.equal(section.is_visible,false);
       assert.equal(result.translation.status,'complete');
       const publicHtml=await(await fetch(root+'/en/')).text();
@@ -79,7 +80,7 @@ test('homepage builder creates, previews, edits, duplicates, reorders, removes a
       }
       const updated=await api('PUT','/pages/home/sections/'+section.section_key,{...section,name:'Builder integration fixture',is_visible:true});
       if(template.template==='builder_table') {
-        const content={columns:['Feature','Basic','Pro','Elite'],rows:[['Storage','10','20','30'],['Support','1','2','3']]};
+        const content={blocks:[{id:'custom-table',type:'table',content:{columns:['Feature','Basic','Pro','Elite'],rows:[['Storage','10','20','30'],['Support','1','2','3']]}}]};
         const expanded=await api('PUT','/pages/home/sections/'+section.section_key,{...updated.section,content});
         assert.deepEqual(expanded.section.content,content);
         for(const locale of ['en','ms','zh']) {

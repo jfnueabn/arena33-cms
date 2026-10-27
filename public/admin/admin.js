@@ -71,7 +71,7 @@ const LONG = new Set(['description', 'card_description', 'banner_text', 'answer'
 const humanize = k => (LABELS[k] || k.replace(/_/g, ' ').replace(/^\w/, c => c.toUpperCase()));
 const itemTitle = (item, i) => {
   if (typeof item !== 'object' || !item) return `Item ${i + 1}`;
-  const t = item.title || item.name || item.label || item.question || item.offer || item.feature || item.heading || item.text;
+  const t = item.title || item.name || item.label || item.question || item.offer || item.feature || item.heading || item.text || (item.home && item.away ? item.home+' vs '+item.away : item.league);
   return t || `Item ${i + 1}`;
 };
 
@@ -134,10 +134,15 @@ function markDirty() {
 }
 
 // ---------- Sidebar ----------
+function pagesInHeaderOrder() {
+  return NavLinks.headerPages(sectionByKey('header')?.content.nav||[],state.pages,location.origin);
+}
 function renderSidebar() {
-  $('#pageSelect').replaceChildren(...state.pages.map(p => h('option', { value: p.slug, selected: p.slug === state.pageSlug ? 'selected' : null }, p.name)));
+  const headerPages=pagesInHeaderOrder();
+  if(!headerPages.some(page=>page.slug===state.pageSlug))state.pageSlug=headerPages[0]?.slug||'home';
+  $('#pageSelect').replaceChildren(...headerPages.map(p => h('option', { value:p.slug, selected:p.slug===state.pageSlug?'selected':null }, p.name)));
   $('#sectionLabel').textContent = selectedPage().name + ' sections';
-  $('#builderActions').hidden = state.pageSlug !== 'home';
+  $('#builderActions').hidden = false;
   $('#viewSite').href = '/en/' + (state.pageSlug === 'home' ? '' : state.pageSlug);
   const fixed = state.sections.filter(s => s.is_fixed);
   const body = pageSections();
@@ -263,7 +268,7 @@ function pageSettingsView() {
       h('div', { class: 'serp', id: 'serp' }, h('div', { class: 'url' }), h('div', { class: 't' }), h('div', { class: 'd' }))),
     h('div', { class:'panel' }, h('h2', {}, 'Publishing & SEO'),
       h('p', { class:'muted small' }, 'Page URL: /' + state.locale + '/' + (d.slug === 'home' ? '' : d.slug)),
-      h('p', { class:'muted small' }, 'Edit SEO and content in English. Malay and Chinese are generated automatically. The language selector changes only the preview.'),
+      h('p', { class:'muted small' }, 'Edit SEO and content in English. Malay and Chinese are generated automatically. The admin editor and preview use English.'),
       h('label', { class:'field check' }, h('input', { type:'checkbox', checked:d.is_visible, onchange:e => { d.is_visible = e.target.checked; markDirty(); } }), h('span', {}, 'Publish this page')),
       seoField('seo_title', 'SEO title', 60),
       seoField('seo_description', 'Meta description', 160, true),
@@ -288,8 +293,9 @@ function updateSerp() {
 function sectionView() {
   const d = state.draft;
   const isHero = ['hero', 'games_hero', 'bonus_hero', 'sports_hero'].includes(d.template);
+  const itemHeading = d.template==='builder_section' && !d.title && !d.eyebrow && !d.subtitle;
 
-  const headingPanel = d.is_fixed || (d.section_key==='hero' && d.template==='builder_section') ? null : h('div', { class: 'panel' },
+  const headingPanel = d.is_fixed || itemHeading ? null : h('div', { class: 'panel' },
     h('h2', {}, 'Section heading'),
     h('label', { class: 'field check' },
       h('input', { type: 'checkbox', checked: d.is_visible, onchange: e => { d.is_visible = e.target.checked; markDirty(); } }),
@@ -305,8 +311,8 @@ function sectionView() {
   return h('div', {},
     head(d.name, d),
     d.translation_exists === false ? h('p', {class:'translation-note'}, 'English fallback is shown. Save this section to create its translation.') : null,
-    d.page_slug === 'home' && !d.is_fixed ? h('div', {class:'section-tools panel'},
-      d.section_key==='hero' && d.template==='builder_section' ? h('label',{class:'field check'},h('input',{type:'checkbox',checked:d.is_visible,onchange:event=>{d.is_visible=event.target.checked;markDirty();}}),h('span',{},'Show this section on this page')) : null,
+    d.page_slug !== 'shared' && !d.is_fixed ? h('div', {class:'section-tools panel'},
+      itemHeading ? h('label',{class:'field check'},h('input',{type:'checkbox',checked:d.is_visible,onchange:event=>{d.is_visible=event.target.checked;markDirty();}}),h('span',{},'Show this section on this page')) : null,
       plainInput('Section name (admin only)', d.name, value => (d.name = value)),
       h('div', {class:'section-tool-buttons'},
         d.template.startsWith('builder_') ? h('button', {class:'btn',onclick:()=>duplicateSection(d)}, 'Duplicate section') : null,
@@ -315,6 +321,7 @@ function sectionView() {
       !d.is_visible ? h('p', {class:'muted small'}, 'This section is hidden from visitors and the preview. Enable “Show this section on this page” and save to display it.') : null
     ) : null,
     headingPanel,
+    d.section_key==='header'?h('p',{class:'translation-note'},'Saving a new internal header link automatically creates a published page with a blank section. Leave its URL empty to generate it from the label, or enter /your-page. External links and #anchors do not create pages.'):null,
     d.template === 'builder_section' ? sectionLayoutEditor(d.content) : null,
     h('div', { class: 'panel' }, h('h2', {}, 'Content'), d.template === 'builder_section' ? blocksEditor(d.content) : d.template === 'builder_table' ? tableEditor(d.content) : h('div', { class: 'grid2' }, buildFields(d.content, []))),
     saveBar(true)
@@ -509,6 +516,10 @@ function listField(key, arr, path) {
 // ---------- Save / discard / history ----------
 async function save() {
   if (!state.dirty) return;
+  if(state.current==='header') {
+    const conflict=NavLinks.duplicate(state.draft.content.nav,location.origin);
+    if(conflict){conflict.indexes.forEach(index=>state.open.add('nav.'+index));renderEditor();toast(conflict.message,true);return;}
+  }
   const btn = $('#saveBtn');
   if (btn) { btn.disabled = true; btn.textContent = 'Saving & translating…'; }
   let translation;
@@ -526,6 +537,8 @@ async function save() {
       const { eyebrow, title, subtitle, is_visible, content } = state.draft;
       const result = await api('PUT', sectionApi(state.current), { name:state.draft.name, eyebrow, title, subtitle, is_visible, content });
       const { section } = result; translation = result.translation;
+      if(result.pages)state.pages=result.pages;
+      if(result.sections)state.sections=result.sections;
       replaceSection(section);
       state.draft = clone(section);
     }
@@ -625,8 +638,9 @@ window.addEventListener('beforeunload', e => {
     const parts = location.hash.slice(1).split(':');
     const wanted = parts.length > 1 ? parts[1] : parts[0];
     const inferredSlug = sectionByKey(wanted)?.page_slug;
-    state.pageSlug = state.pages.some(p => p.slug === parts[0]) ? parts[0] : state.pages.some(p => p.slug === inferredSlug) ? inferredSlug : 'home';
-    openItem(['settings', 'page-settings'].includes(wanted) || sectionByKey(wanted) ? wanted : pageSections()[0].section_key);
+    const headerPages=pagesInHeaderOrder();
+    state.pageSlug = headerPages.some(p => p.slug === parts[0]) ? parts[0] : headerPages.some(p => p.slug === inferredSlug) ? inferredSlug : headerPages[0]?.slug || 'home';
+    openItem(['settings', 'page-settings'].includes(wanted) || (sectionByKey(wanted)?.is_fixed||sectionByKey(wanted)?.page_slug===state.pageSlug) ? wanted : pageSections()[0]?.section_key || 'page-settings');
   } catch (e) {
     editor.replaceChildren(h('div', { class: 'empty' }, 'Could not load content: ' + e.message));
   }
@@ -639,12 +653,13 @@ $('#addSectionBtn').addEventListener('click',()=>createHomeSection({template:'bu
 $('#sectionTemplatesBtn').addEventListener('click',()=>showSectionLibrary(false));
 $('#removedSectionsBtn').addEventListener('click',()=>showSectionLibrary(true));
 async function showSectionLibrary(removed) {
-  $('#sectionBuilderTitle').textContent = removed ? 'Removed sections' : 'Add a homepage section';
+  builderDialog.classList.remove('content-picker-dialog');
+  $('#sectionBuilderTitle').textContent = removed ? 'Removed sections' : 'Add a section';
   const container = $('#sectionBuilderContent');
   container.replaceChildren(h('p',{class:'muted'},'Loading…'));
   builderDialog.showModal();
   try {
-    const data = await api('GET','/pages/home/section-builder');
+    const data = await api('GET','/pages/'+state.pageSlug+'/section-builder');
     if (removed) {
       container.replaceChildren(h('p',{class:'muted small'},'Restore a section as hidden, then review it before showing it to visitors.'),
         ...(data.archived.length ? data.archived.map(section=>h('div',{class:'builder-removed'},h('strong',{},section.name),h('button',{class:'btn',onclick:()=>restoreRemovedSection(section)},'Restore'))) : [h('p',{class:'muted'},'No removed sections.')]) );
@@ -660,7 +675,7 @@ function selectBuilderResult(section) {
   const index=state.sections.findIndex(item=>item.section_key===section.section_key);
   if(index<0)state.sections.push(section); else state.sections[index]=section;
   state.sections.sort((a,b)=>a.sort_order-b.sort_order);
-  state.pageSlug='home';state.dirty=false;state.current=null;
+  state.pageSlug=section.page_slug;state.dirty=false;state.current=null;
   builderDialog.close();
   openItem(section.section_key);
   $('#layout').classList.remove('no-preview');$('#togglePreview').textContent='Hide preview';
@@ -670,22 +685,22 @@ async function createHomeSection(body) {
   if(!canLeaveDraft())return;
   const buttons=[...builderDialog.querySelectorAll('button')];buttons.forEach(button=>button.disabled=true);
   try {
-    const result=await api('POST','/pages/home/sections',body);
+    const result=await api('POST','/pages/'+state.pageSlug+'/sections',body);
     selectBuilderResult(result.section);
     toast(result.translation?.status==='pending' ? 'Section created. Translation is pending.' : 'Section created as hidden. Enable “Show this section on this page” and save to display it.');
   } catch(error) {toast(error.message,true);} finally {buttons.forEach(button=>button.disabled=false);}
 }
 async function duplicateSection(section) {
   if(!canLeaveDraft())return;
-  try {const result=await api('POST','/pages/home/sections',{source_key:section.section_key});selectBuilderResult(result.section);toast('Section duplicated as hidden.');}catch(error){toast(error.message,true);}
+  try {const result=await api('POST','/pages/'+state.pageSlug+'/sections',{source_key:section.section_key});selectBuilderResult(result.section);toast('Section duplicated as hidden.');}catch(error){toast(error.message,true);}
 }
 async function removeSection(section) {
-  if(!confirm('Delete “'+section.name+'” from the homepage? You can restore it from Removed sections. Unsaved changes to this section will be discarded.'))return;
-  try {const result=await api('DELETE','/pages/home/sections/'+section.section_key);state.sections=result.sections;state.dirty=false;state.current=null;openItem(pageSections()[0]?.section_key || 'page-settings');toast('Section removed. You can restore it from Removed sections.');}catch(error){toast(error.message,true);}
+  if(!confirm('Delete “'+section.name+'” from this page? You can restore it from Removed sections. Unsaved changes to this section will be discarded.'))return;
+  try {const result=await api('DELETE','/pages/'+state.pageSlug+'/sections/'+section.section_key);state.sections=result.sections;state.dirty=false;state.current=null;openItem(pageSections()[0]?.section_key || 'page-settings');toast('Section removed. You can restore it from Removed sections.');}catch(error){toast(error.message,true);}
 }
 async function restoreRemovedSection(section) {
   if(!canLeaveDraft())return;
-  try {const result=await api('POST','/pages/home/sections/'+section.section_key+'/unarchive');selectBuilderResult(result.section);toast('Section restored as hidden.');}catch(error){toast(error.message,true);}
+  try {const result=await api('POST','/pages/'+state.pageSlug+'/sections/'+section.section_key+'/unarchive');selectBuilderResult(result.section);toast('Section restored as hidden.');}catch(error){toast(error.message,true);}
 }
 
 // Spreadsheet-style editor: column changes always keep every row aligned.
@@ -736,12 +751,29 @@ function blocksEditor(content) {
           h('button',{class:'btn sm danger','aria-label':'Delete content '+(index+1),onclick:()=>{content.blocks.splice(index,1);redraw();}},'Delete')
         )),blockStyleEditor(block,index,content),block.type==='hero_visual'?heroVisualEditor(block,index):block.type==='table'?tableEditor(block.content):block.type==='heading'?h('div',{class:'grid2'},plainInput('Heading text',block.content.text,value=>{block.content.text=value;}),choiceInput('Heading level',block.content.level,[['h1','H1 — main page heading'],['h2','H2'],['h3','H3'],['h4','H4']],value=>{block.content.level=value;}),plainInput('Highlighted words',block.content.highlight||'',value=>{block.content.highlight=value;})):h('div',{class:'grid2'},buildFields(block.content,['blocks',index,'content'])));
     }),
-    h('button',{class:'btn primary',disabled:content.blocks.length>=50,onclick:()=>{
-      $('#sectionBuilderTitle').textContent='Add content to this section';
-      $('#sectionBuilderContent').replaceChildren(h('div',{class:'builder-template-grid'},...state.contentBlocks.map(definition=>h('button',{class:'btn builder-template',onclick:()=>{content.blocks.push({id:crypto.randomUUID(),type:definition.type,content:clone(definition.content)});builderDialog.close();redraw();}},h('strong',{},definition.name)))));
-      builderDialog.showModal();
-    }},'+ Add content')
+    h('button',{class:'btn primary',disabled:content.blocks.length>=50,onclick:()=>showContentPicker(content,redraw)},'+ Add content')
   );
+}
+
+function showContentPicker(content,redraw) {
+  $('#sectionBuilderTitle').textContent='Add content to this section';
+  builderDialog.classList.add('content-picker-dialog');
+  const search=h('input',{type:'search',placeholder:'Search content types…','aria-label':'Search content types','aria-controls':'contentTypeResults'});
+  const results=h('div',{id:'contentTypeResults',class:'builder-template-grid content-type-results'});
+  const status=h('p',{class:'muted small',role:'status','aria-live':'polite'});
+  const definitions=[...state.contentBlocks].sort((a,b)=>a.name.localeCompare(b.name,'en',{sensitivity:'base'}));
+  const filter=()=>{
+    const query=search.value.trim().toLowerCase();
+    const matches=definitions.filter(definition=>(definition.name+' '+definition.type.replaceAll('_',' ')).toLowerCase().includes(query));
+    status.textContent=matches.length+' content type'+(matches.length===1?'':'s')+' · A–Z';
+    results.replaceChildren(...(matches.length?matches.map(definition=>h('button',{type:'button',class:'btn builder-template',onclick:()=>{
+      content.blocks.push({id:crypto.randomUUID(),type:definition.type,content:clone(definition.content)});builderDialog.close();redraw();
+    }},h('strong',{},definition.name))):[h('p',{class:'muted'},'No content types match your search.')]));
+    results.scrollTop=0;
+  };
+  search.addEventListener('input',filter);
+  $('#sectionBuilderContent').replaceChildren(h('label',{class:'field'},h('span',{},'Search content'),search),status,results);
+  filter();builderDialog.showModal();search.focus();
 }
 
 function choiceInput(label,value,options,onChange) {

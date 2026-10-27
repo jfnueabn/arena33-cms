@@ -52,10 +52,11 @@ document.querySelectorAll('.timer[data-target]').forEach(timer => {
 });
 
 // Daily bonus wheel (prizes come from the database)
-const wheel = document.getElementById('wheel');
-const spinBtn = document.getElementById('spinBtn');
-const spinOut = document.getElementById('spinResult');
-if (wheel && spinBtn) {
+document.querySelectorAll('.wheel-wrap').forEach(wrapper => {
+const wheel = wrapper.querySelector('.wheel');
+const spinBtn = wrapper.querySelector('[data-spin-button], #spinBtn');
+const spinOut = wrapper.querySelector('[data-spin-result], #spinResult');
+if (wheel && spinBtn && spinOut) {
   const prizes = JSON.parse(spinBtn.dataset.prizes || '[]');
   const seg = 360 / prizes.length;
   let rot = 0;
@@ -72,15 +73,18 @@ if (wheel && spinBtn) {
     }, 4100);
   });
 }
+});
 
 // Popular Games: progressive enhancement keeps every card readable without JavaScript.
-const gameFilters = document.querySelectorAll('[data-game-filter]');
-const gameCards = document.querySelectorAll('[data-game-category]');
+document.querySelectorAll('[data-game-collection], section#game-collection').forEach(collection => {
+const gameFilters = collection.querySelectorAll('[data-game-filter]');
+const gameCards = collection.querySelectorAll('[data-game-category]');
 gameFilters.forEach(button => button.addEventListener('click', () => {
   const category = button.dataset.gameFilter;
   let count = 0;
   gameCards.forEach(card => { card.hidden = !!category && card.dataset.gameCategory !== category; if (!card.hidden) count++; });
   gameFilters.forEach(filter => { const active = filter === button; filter.classList.toggle('active', active); filter.setAttribute('aria-pressed', String(active)); });
-  const status = document.getElementById('gamesCount');
+  const status = collection.querySelector('[data-games-count], #gamesCount');
   if (status) status.textContent = count + ' ' + (count === 1 ? publicLabels.game : publicLabels.games);
 }));
+});

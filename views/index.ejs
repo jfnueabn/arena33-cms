@@ -42,6 +42,9 @@
     ].concat(faqItems.length ? [{
       '@type': 'FAQPage',
       mainEntity: faqItems.map(f => ({ '@type': 'Question', name: f.question, acceptedAnswer: { '@type': 'Answer', text: f.answer } }))
+    }] : []).concat(breadcrumbs.items.length ? [{
+      '@type':'BreadcrumbList',
+      itemListElement:breadcrumbs.items.map((item,index)=>({'@type':'ListItem',position:index+1,name:item.label,item:new URL(item.url?safeUrl(item.url):pagePath(pageSlug,locale),canonical).href}))
     }] : [])
   }).replace(/</g, '\\u003c') %></script>
 
@@ -56,6 +59,7 @@
   <%- include('partials/header', { h: header.content }) %>
 
   <main id="main">
+    <% if(breadcrumbs.renderAtTop) { %><div class="page-breadcrumb"><div class="container"><nav aria-label="Breadcrumb"><ol><% breadcrumbs.items.forEach((item,index)=>{ %><li><% if(index) { %><span class="breadcrumb-separator" aria-hidden="true">/</span><% } %><% if(item.url) { %><a href="<%= safeUrl(item.url) %>"><%= item.label %></a><% } else { %><span aria-current="page"><%= item.label %></span><% } %></li><% }) %></ol></nav></div></div><% } %>
     <% sections.forEach(s => { %>
       <%- include('sections/' + s.template, { s, c: s.content }) %>
     <% }) %>

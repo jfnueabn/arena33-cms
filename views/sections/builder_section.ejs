@@ -1,8 +1,10 @@
 <% const layout={...sectionLayout.defaults,...c.layout}; %>
+<% if(!c.blocks.length || !c.blocks.every(block=>block.type==='providers'&&!block.content.providers.length)) { %>
+<% if(c.anchor && c.anchor!==s.section_key && /^[a-zA-Z][a-zA-Z0-9_-]{0,63}$/.test(c.anchor)) { %><span id="<%= c.anchor %>" class="section-anchor" aria-hidden="true"></span><% } %>
 <section id="<%= s.section_key %>" class="flexible-section layout-variant-<%= layout.variant %> layout-pad-<%= layout.padding %> layout-gap-<%= layout.gap %> layout-width-<%= layout.width %> layout-align-<%= layout.align %>" style="<% if(layout.background_color) { %>background-color:<%= layout.background_color %>;<% } %><% if(layout.text_color) { %>color:<%= layout.text_color %>;--muted:<%= layout.text_color %>;<% } %><% if(layout.background_image) { %>background-image:linear-gradient(#0b164080,#0b164080),url('<%= encodeURI(layout.background_image).replace(/'/g,'%27') %>');background-size:cover;background-position:center;<% } %>"><div class="container">
   <% if(s.title || s.eyebrow || s.subtitle) { %><%- include('../partials/section-head', {s}) %><% } %>
   <div class="content-blocks">
-  <% sectionLayout.groups(c.blocks,layout.columns).forEach(group=>{ %>
+  <% sectionLayout.groups(c.blocks.filter(block=>!(typeof breadcrumbs!=='undefined'&&breadcrumbs.renderAtTop&&block.type==='breadcrumb')),layout.columns).forEach(group=>{ %>
     <div class="section-columns section-columns-<%= group.full ? 1 : layout.columns %> section-valign-<%= layout.vertical_align %>">
     <% group.columns.forEach(column=>{ %><div class="section-column">
       <% column.forEach(block=>{ %><%- include('../partials/content-block', {block,s}) %><% }) %>
@@ -11,3 +13,4 @@
   <% }) %>
   </div>
 </div></section>
+<% } %>

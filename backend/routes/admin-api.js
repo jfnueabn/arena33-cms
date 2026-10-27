@@ -14,6 +14,7 @@ router.use((req, res, next) => {
   next();
 });
 const builder = require('../controllers/section-builder');
+router.post('/pages', require('../controllers/pages').create);
 router.get('/pages/:slug/section-builder', builder.list);
 router.post('/pages/:slug/sections', builder.create);
 router.delete('/pages/:slug/sections/:key', builder.archive);

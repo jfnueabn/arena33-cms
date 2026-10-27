@@ -1,0 +1,18 @@
+<% if(block.type==='tag_list') { %>
+  <div class="card"><% if(value.title) { %><h3><%= value.title %></h3><% } %><ul class="pill-list"><% value.tags.forEach(tag=>{ %><li><%= tag %></li><% }) %></ul><% if(value.note) { %><p class="note"><%= value.note %></p><% } %></div>
+<% } else if(block.type==='feature_cards') { %>
+  <div class="builder-features grid"><% value.items.forEach(item=>{ %><article class="card feature"><div class="ico" aria-hidden="true"><%= item.icon %></div><h3><%= item.title %></h3><p><%= item.description %></p></article><% }) %></div>
+<% } else if(block.type==='countdown') { %>
+  <div class="builder-countdown"><% if(value.description) { %><p><%= value.description %></p><% } %><div class="timer" data-target="<%= value.target_date %>"><% [['d','DAYS'],['h','HOURS'],['m','MINS'],['s','SECS']].forEach(([unit,label])=>{ %><div><b data-unit="<%= unit %>">00</b><small><%= t(label) %></small></div><% }) %></div><% if(value.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(value.button.url) %>"><%= value.button.text %></a><% } %></div>
+<% } else if(block.type==='steps') { %>
+  <ol class="builder-steps grid"><% value.items.forEach(item=>{ %><li class="card step"><h3><%= item.title %></h3><p><%= item.description %></p></li><% }) %></ol>
+<% } else if(block.type==='plans') { %>
+  <div class="builder-plans grid"><% value.items.forEach(plan=>{ %><article class="card plan<%= plan.featured?' featured':'' %>"><% if(plan.badge) { %><span class="badge"><%= plan.badge %></span><% } %><h3><%= plan.name %></h3><div class="price"><%= plan.price %> <small><%= t(plan.period) %></small></div><ul><% plan.features.forEach(feature=>{ %><li class="<%= feature.included?'':'off' %>"><%= feature.text %></li><% }) %></ul><% if(plan.button.text) { %><a class="btn <%= plan.featured?'btn-primary':'btn-ghost' %>" href="<%= safeUrl(plan.button.url) %>"><%= plan.button.text %></a><% } %></article><% }) %></div>
+<% } else if(block.type==='wheel') { %>
+  <% const prizes=value.prizes.length?value.prizes:[{label:t('Try Again'),color:'#6366f1'}];const seg=360/prizes.length;const gradient=prizes.map((prize,index)=>`${/^#[0-9a-f]{6}$/i.test(prize.color)?prize.color:'#6366f1'} ${index*seg}deg ${(index+1)*seg}deg`).join(','); %>
+  <div class="wheel-wrap"><div class="wheel-box"><div class="pointer" aria-hidden="true">▼</div><div class="wheel" style="background:conic-gradient(<%= gradient %>)"></div></div><button class="btn btn-primary" data-spin-button data-prizes="<%= JSON.stringify(prizes.map(prize=>prize.label)) %>"><%= value.button_text %></button><p data-spin-result aria-live="polite"></p></div>
+<% } else if(block.type==='testimonials') { %>
+  <div class="builder-testimonials grid"><% value.items.forEach(item=>{const rating=Math.max(0,Math.min(5,Math.round(item.rating))); %><figure class="card"><div class="stars" aria-label="<%= rating %> out of 5 stars"><%= '★'.repeat(rating)+'☆'.repeat(5-rating) %></div><blockquote>"<%= item.quote %>"</blockquote><figcaption><cite><%= item.name %><small><%= item.location %></small></cite></figcaption></figure><% }) %></div><% if(value.note) { %><p class="note"><%= value.note %></p><% } %>
+<% } else if(block.type==='call_to_action') { %>
+  <div class="cta"><% if(value.title) { %><h2><%= value.title %></h2><% } %><% if(value.description) { %><p><%= value.description %></p><% } %><% if(value.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(value.button.url) %>"><%= value.button.text %></a><% } %></div>
+<% } %>

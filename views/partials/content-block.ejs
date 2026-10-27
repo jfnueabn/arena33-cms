@@ -1,6 +1,18 @@
 <% const value=block.content; const style={...sectionLayout.blockDefaults,...block.style}; %>
 <div id="<%= s.section_key + '-' + block.id %>" class="content-block content-block-<%= block.type %> block-align-<%= style.align %> block-width-<%= style.width %> block-font-<%= style.font_size %> block-pad-<%= style.padding %> block-radius-<%= style.radius %>" style="text-align:<%= style.align %>;<% if(style.color) { %>color:<%= style.color %>;--muted:<%= style.color %>;<% } %><% if(style.background) { %>background-color:<%= style.background %>;<% } %>">
-    <% if(block.type==='badge') { %>
+    <% if(['match_preview','highlights','sport_categories'].includes(block.type)) { %>
+      <%- include('sports-content-block',{block,value}) %>
+    <% } else if(['bonus_reward_card','bonus_offers','bullet_list','breadcrumb','bonus_cta'].includes(block.type)) { %>
+      <%- include('bonus-content-block',{block,value}) %>
+    <% } else if(['game_collection','game_visual','providers','notice'].includes(block.type)) { %>
+      <%- include('game-content-block',{block,value}) %>
+    <% } else if(['tag_list','feature_cards','countdown','steps','plans','wheel','testimonials','call_to_action'].includes(block.type)) { %>
+      <%- include('homepage-block',{block,value}) %>
+    <% } else if(block.type==='counters') { %>
+      <div class="builder-counters grid"><% value.items.forEach(item=>{ %><div class="stat"><b data-count="<%= item.value %>" data-suffix="<%= item.suffix %>"><%= item.value.toLocaleString('en-MY') %><%= item.suffix %></b><span><%= item.label %></span></div><% }) %></div>
+    <% } else if(block.type==='promo_banner') { %>
+      <div class="promo" style="background:linear-gradient(90deg,<%= value.color_from %>,<%= value.color_to %>)"><div><% if(value.banner_title) { %><h3><%= value.banner_title %></h3><% } %><% if(value.banner_text) { %><p><%= value.banner_text %></p><% } %></div><% if(value.button.text) { %><a class="btn btn-primary" href="<%= safeUrl(value.button.url) %>"><%= value.button.text %></a><% } %></div>
+    <% } else if(block.type==='badge') { %>
       <% if(value.text) { %><span class="eyebrow"><%= value.text %></span><% } %>
     <% } else if(block.type==='buttons') { %>
       <div class="hero-btns"><% value.items.forEach(button=>{ if(button.text) { %><a class="btn <%= button.variant==='outline'?'btn-ghost':'btn-primary' %>" href="<%= safeUrl(button.url) %>"><%= button.text %></a><% } }) %></div>

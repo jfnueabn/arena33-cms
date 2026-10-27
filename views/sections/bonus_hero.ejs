@@ -1,4 +1,6 @@
+<% if(typeof breadcrumbs==='undefined'||!breadcrumbs.renderAtTop) { %>
 <div class="bonus-breadcrumb"><div class="container"><a href="<%= pagePath('home', locale) %>"><%= t("Home") %></a><span aria-hidden="true">/</span><span><%= t("Welcome Bonus") %></span></div></div>
+<% } %>
 <section class="hero bonus-hero">
   <div class="container bonus-hero-grid">
     <div><% if (s.eyebrow) { %><span class="eyebrow"><%= s.eyebrow %></span><% } %>

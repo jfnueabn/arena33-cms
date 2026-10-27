@@ -1,4 +1,6 @@
+<% if(typeof breadcrumbs==='undefined'||!breadcrumbs.renderAtTop) { %>
 <div class="bonus-breadcrumb"><div class="container"><a href="<%= pagePath('home', locale) %>"><%= t("Home") %></a><span aria-hidden="true">/</span><span><%= c.breadcrumb || t("Sports Betting") %></span></div></div>
+<% } %>
 <section class="hero sports-hero"><div class="container sports-hero-grid">
   <div><span class="eyebrow"><%= s.eyebrow %></span><h1><%= s.title %></h1><p><%= c.description %></p>
     <% if (s.subtitle) { %><p><%= s.subtitle %></p><% } %>

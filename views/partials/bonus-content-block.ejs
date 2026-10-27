@@ -1,0 +1,26 @@
+<% const c=value; if(block.type==='bonus_reward_card') { %>
+    <div class="bonus-welcome-card">
+      <span class="bonus-gift" aria-hidden="true"><%= c.gift %></span>
+      <% if (c.sample_label) { %><span class="bonus-sample"><%= c.sample_label %></span><% } %>
+      <p class="bonus-card-label"><%= c.card_label %></p><p class="bonus-value"><%= c.card_value %></p><p><%= c.card_description %></p>
+      <dl class="bonus-highlights"><% c.highlights.forEach(item => { %><div><dt><%= item.label %></dt><dd><%= item.value %></dd></div><% }) %></dl>
+      <div class="bonus-deadline"><p><%= c.countdown_label || 'Offer period' %></p>
+      <% if (c.target_date && Number.isFinite(Date.parse(c.target_date))) { %><div class="timer bonus-timer" data-target="<%= c.target_date %>" aria-label="Offer countdown"><% [['d','Days'],['h','Hours'],['m','Minutes'],['s','Seconds']].forEach(([unit,label]) => { %><div><b data-unit="<%= unit %>">00</b><small><%= t(label) %></small></div><% }) %></div>
+      <% } else { %><div class="bonus-timer-static" aria-label="No offer end date set"><span>—<small><%= t("Days") %></small></span><span>—<small><%= t("Hours") %></small></span><span>—<small><%= t("Minutes") %></small></span><span>—<small><%= t("Seconds") %></small></span></div><p class="bonus-deadline-note"><%= c.countdown_empty || 'Contact us for the current offer period.' %></p><% } %>
+      </div>
+    </div>
+
+<% } else if(block.type==='bonus_offers') { %>
+  <div class="bonus-offer-grid"><% const offers = c.offers.filter(offer => offer.visible); offers.forEach(offer => { %>
+    <article class="card bonus-offer">
+      <% if (offer.image) { %><img class="bonus-offer-image" src="<%= safeUrl(offer.image) %>" alt="<%= offer.image_alt %>" loading="lazy" width="480" height="300"><% } else { %><span class="bonus-offer-icon" aria-hidden="true"><%= offer.icon %></span><% } %>
+      <% if (offer.badge) { %><span class="bonus-offer-badge"><%= offer.badge %></span><% } %>
+      <h3><%= offer.title %></h3><p class="bonus-benefit"><%= offer.benefit %></p><p><%= offer.description %></p>
+      <% if (offer.button.text && offer.button.url) { %><a class="game-link" href="<%= safeUrl(offer.button.url) %>"><%= offer.button.text %><span aria-hidden="true">↗</span></a><% } %>
+    </article>
+  <% }); %></div>
+  <% if (!offers.length) { %><p class="games-empty"><%= t("New offers will be listed here when available.") %></p><% } %>
+
+<% } else if(block.type==='bullet_list') { %><ul class="bonus-terms"><% value.items.forEach(item=>{ %><li><%= item %></li><% }) %></ul>
+<% } else if(block.type==='breadcrumb') { %><nav class="bonus-breadcrumb" aria-label="Breadcrumb"><% value.items.forEach((item,index)=>{ %><% if(index) { %><span aria-hidden="true"> / </span><% } %><% if(item.url) { %><a href="<%= safeUrl(item.url) %>"><%= item.label %></a><% } else { %><span><%= item.label %></span><% } %><% }) %></nav>
+<% } else if(block.type==='bonus_cta') { %><div class="bonus-final-inner"><span class="eyebrow"><%= value.label %></span><h2><%= value.title %></h2><p><%= value.description %></p><div class="games-actions"><% [value.button,value.secondary_button].forEach((button,index)=>{if(button.text) { %><a class="btn <%= index?'btn-ghost':'btn-primary' %>" href="<%= safeUrl(button.url) %>"><%= button.text %></a><% } }) %></div><% if(value.note) { %><small><%= value.note %></small><% } %></div><% } %>

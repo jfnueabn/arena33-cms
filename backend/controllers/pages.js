@@ -1,5 +1,34 @@
 const db = require('../db');
 
+exports.create = async (req,res,next) => {
+  const {name,slug,add_to_header=false}=req.body;
+  if(typeof name!=='string'||!name.trim()||name.trim().length>80||!require('../services/page-slug')(slug)||typeof add_to_header!=='boolean')return res.status(400).json({error:'Enter a page name and a unique URL using lowercase letters, numbers and hyphens. Reserved URLs cannot be used.'});
+  let conn;
+  try {
+    conn=await db.pool.getConnection();
+    await conn.beginTransaction();
+    const content={seo_title:name.trim(),seo_description:'',seo_keywords:'',og_image:'',robots_index:'1'};
+    await conn.query('INSERT INTO landing_pages (slug,title,content,is_visible) VALUES (?,?,?,0)',[slug,name.trim(),JSON.stringify(content)]);
+    if(add_to_header) {
+      const [[header]]=await conn.query("SELECT content FROM sections WHERE section_key='header' FOR UPDATE");
+      if(header) {
+        const value=db.parseJson(header.content);
+        if(!value.nav.some(link=>link.url===('/'+slug)||link.url===('/en/'+slug)||link.url===('/en/'+slug+'/')))value.nav.push({label:name.trim(),url:'/'+slug});
+        await conn.query("UPDATE sections SET content=?,updated_by=? WHERE section_key='header'",[JSON.stringify(value),req.session.admin.id]);
+      }
+    }
+    await conn.commit();
+    conn.release();conn=null;
+    const translator=require('../services/automatic-translations');
+    const results=await Promise.all([translator.syncPage(slug),...(add_to_header?[translator.syncSection('header')]:[])]);
+    res.status(201).json({page:await db.getPage(slug,'en'),sections:await db.getSections(null,'en'),translation:{status:results.every(r=>r.status==='complete')?'complete':'pending'}});
+  } catch(error) {
+    if(conn)await conn.rollback();
+    if(error.code==='ER_DUP_ENTRY')return res.status(409).json({error:'That page URL already exists. Choose another URL.'});
+    next(error);
+  } finally {conn?.release();}
+};
+
 exports.update = async (req, res, next) => {
   try {
     const page = await db.getPage(req.params.slug, req.locale || 'en');

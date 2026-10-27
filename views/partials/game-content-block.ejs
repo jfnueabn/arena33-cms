@@ -1,0 +1,12 @@
+<% if(block.type==='game_collection') {const games=value.games.filter(game=>game.visible);const categories=[...new Set(games.map(game=>game.category).filter(Boolean))]; %>
+  <div data-game-collection>
+    <div class="game-filters" role="group" aria-label="<%= t('Filter games by category') %>"><button type="button" class="game-filter active" data-game-filter="" aria-pressed="true"><%= t('All games') %></button><% categories.forEach(category=>{ %><button type="button" class="game-filter" data-game-filter="<%= category %>" aria-pressed="false"><%= category %></button><% }) %></div>
+    <p class="games-count" data-games-count role="status"><%= games.length %> <%= t('games') %></p>
+    <div class="games-grid"><% games.forEach((game,index)=>{ %><article class="game-card" data-game-category="<%= game.category %>"><div class="game-cover game-cover-<%= index%4 %>"><% if(game.image) { %><img src="<%= safeUrl(game.image) %>" alt="<%= game.image_alt %>" loading="lazy" width="480" height="300"><% } else { %><span aria-hidden="true"><%= game.icon %></span><% } %><% if(game.badge) { %><span class="game-badge"><%= game.badge %></span><% } %></div><div class="game-copy"><p class="game-category"><%= game.category %></p><h3><%= game.name %></h3><p><%= game.description %></p><% if(game.url&&safeUrl(game.url)!=='#') { %><a class="game-link" href="<%= safeUrl(game.url) %>"><%= t('Explore game') %> <span aria-hidden="true">↗</span><span class="sr-only">: <%= game.name %></span></a><% } %></div></article><% }) %></div>
+    <% if(!games.length) { %><p class="games-empty"><%= t('The collection is being updated. Please check back soon.') %></p><% } %>
+  </div>
+<% } else if(block.type==='game_visual') { %>
+  <div class="games-art"><% if(value.image) { %><img src="<%= safeUrl(value.image) %>" alt="<%= value.image_alt %>" width="640" height="420"><% } else { %><span class="games-art-label"><%= value.label %></span><div class="games-art-icons" aria-hidden="true"><% value.icons.forEach(icon=>{ %><span><%= icon %></span><% }) %></div><p><%= value.caption %></p><% } %></div>
+<% } else if(block.type==='providers'&&value.providers.length) { %>
+  <% if(value.eyebrow) { %><span class="eyebrow"><%= value.eyebrow %></span><% } %><% if(value.title) { %><h2><%= value.title %></h2><% } %><% if(value.subtitle) { %><p><%= value.subtitle %></p><% } %><ul class="game-providers"><% value.providers.forEach(provider=>{ %><li><%= provider %></li><% }) %></ul>
+<% } else if(block.type==='notice'&&value.text) { %><p class="games-notice"><%= value.text %></p><% } %>

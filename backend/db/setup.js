@@ -76,6 +76,10 @@ const { connection, dbName } = require('./config');
   console.log('• English, Bahasa Melayu and Simplified Chinese ready');
   await require('./migrate-offline-translation')(conn);
   await require('./migrate-hero-items')(conn);
+  await require('./migrate-homepage-items')(conn);
+  await require('./migrate-popular-games-items')(conn);
+  await require('./migrate-welcome-bonus-items')(conn);
+  await require('./migrate-landing-page-items')(conn);
 
   const user = process.env.ADMIN_USERNAME;
   const pass = process.env.ADMIN_PASSWORD;

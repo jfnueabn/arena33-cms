@@ -7,11 +7,18 @@ const templates = new Set([...require('../db/defaults').sections.map(s => s.sect
 exports.show = slug => async (req, res, next) => {
   try {
     const locale = req.params.locale || 'en';
-    const [settings, page, sections] = await Promise.all([db.getSettings(), db.getPage(slug, locale), db.getSections(slug, locale)]);
+    const [settings, page, sections, pages] = await Promise.all([db.getSettings(), db.getPage(slug, locale), db.getSections(slug, locale), db.getPages(locale)]);
     const preview = req.query.preview === '1' && req.session.admin;
     if (!page || (!page.is_visible && !preview)) return res.status(404).type('text/plain').send('Page not found');
     if (preview) res.set('Cache-Control', 'no-store');
     const byKey = Object.fromEntries(sections.map(s => [s.section_key, s]));
+    if(byKey.header && !preview) {
+      const hidden=new Set(pages.filter(p=>!p.is_visible).map(p=>p.slug));
+      byKey.header={...byKey.header,content:{...byKey.header.content,nav:byKey.header.content.nav.filter(link=>{
+        const path=String(link.url||'').split(/[?#]/)[0].replace(/^\/(en|ms|zh)(?=\/|$)/,'').replace(/^\/|\/$/g,'');
+        return !hidden.has(path);
+      })}};
+    }
     const body = sections.filter(s => !s.is_fixed && s.is_visible && templates.has(s.template) &&
       !(s.template === 'promo' && s.content.expires_at && Date.parse(s.content.expires_at) < Date.now()));
     const faqItems = body.flatMap(s => s.template === 'builder_section' ? s.content.blocks.filter(block=>block.type==='faq').flatMap(block=>block.content.items) : ['faq','games_faq','builder_faq'].includes(s.template) ? s.content.items || [] : []);
@@ -21,9 +28,10 @@ exports.show = slug => async (req, res, next) => {
       heroTags:require('../utils/hero-tags'), sectionLayout:require('../services/section-layout'), previewMode:!!preview, locale, pageSlug: slug, localeOptions: locales, pagePath,
       languagePath: (page, language) => pagePath(page, language) + (preview ? '?preview=1' : ''),
       t: text => require('../utils/ui-translations')(text, locale),
-      safeUrl: url => safeUrl(localizeUrl(url, locale)),
+      safeUrl: url => safeUrl(localizeUrl(url, locale, pages.map(p=>p.slug))),
       alternateLinks: locales.map(l => ({ language: l.html, url: new URL(pagePath(slug, l.code), siteUrl(settings)).href })),
-      canonical, header: byKey.header, footer: byKey.footer, sections: body, faqItems, year: new Date().getFullYear()
+      canonical, header: byKey.header, footer: byKey.footer, sections: body, faqItems, year: new Date().getFullYear(),
+      breadcrumbs:require('../services/breadcrumbs')(page,byKey.header,body,locale)
     });
   } catch (err) { next(err); }
 };

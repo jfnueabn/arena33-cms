@@ -9,20 +9,36 @@ exports.update = async (req, res, next) => {
     if (!content || typeof content !== 'object' || Array.isArray(content)) {
       return res.status(400).json({ error: 'content must be an object' });
     }
+    if(current.section_key==='header'&&(!Array.isArray(content.nav)||content.nav.length>200||content.nav.some(link=>!link||typeof link.label!=='string'||!link.label.trim()||typeof link.url!=='string')))return res.status(400).json({error:'Header links require a label and a URL field.'});
     const shape = require('../services/section-library').find(s => s.template === current.template) || require('../db/landing-section-defaults').find(s => s.section_key === current.section_key);
     if (current.template === 'builder_section' && !require('../services/content-blocks').valid(content)) return res.status(400).json({error:'Invalid content blocks. Choose a supported content type and keep table rows aligned.'});
     if (current.template === 'builder_table' && !require('../utils/table-content').valid(content)) return res.status(400).json({error:'Tables require 1–12 columns and up to 200 rows, with one text cell per column.'});
     if (shape && current.template !== 'builder_section' && !matchesShape(content, shape.content)) return res.status(400).json({ error: 'Invalid section content' });
     if (current.template==='builder_section' && is_visible && !(await singleMainHeading(current,content))) return res.status(400).json({error:'Only one visible H1 heading is allowed on the page. Change the additional heading to H2 or hide the other section.'});
     if (req.body.name !== undefined && (typeof req.body.name !== 'string' || !req.body.name.trim() || req.body.name.trim().length > 80)) return res.status(400).json({error:'Section name must be between 1 and 80 characters.'});
+    if(current.section_key==='header') {
+      const conflict=require('../../public/admin/nav-links').duplicate(content.nav,req.protocol+'://'+req.get('host'));
+      if(conflict)return res.status(400).json({error:conflict.message});
+    }
     await saveRevision(current, req.session.admin.id, req.locale || 'en');
     if (typeof req.body.name === 'string' && req.body.name.trim() !== current.name) await db.pool.query('UPDATE sections SET name=? WHERE section_key=?',[req.body.name.trim(),current.section_key]);
-    await db.pool.query(
+    let headerPages=[];
+    if(current.section_key==='header') {
+      const conn=await db.pool.getConnection();
+      try {
+        await conn.beginTransaction();
+        const [[saved]]=await conn.query("SELECT content FROM sections WHERE section_key='header' FOR UPDATE");
+        headerPages=await require('../services/header-pages').sync(conn,content.nav,db.parseJson(saved.content).nav,req.session.admin.id);
+        await conn.query('UPDATE sections SET content=?,updated_by=? WHERE section_key=?',[JSON.stringify(content),req.session.admin.id,'header']);
+        await conn.commit();
+      } catch(error){await conn.rollback();if(error.status===400)return res.status(400).json({error:error.message});throw error;}finally{conn.release();}
+    } else await db.pool.query(
       'UPDATE sections SET eyebrow = ?, title = ?, subtitle = ?, is_visible = ?, content = ?, updated_by = ? WHERE section_key = ?',
       [String(eyebrow).slice(0, 120), String(title).slice(0, 255), String(subtitle), is_visible ? 1 : 0, JSON.stringify(content), req.session.admin.id, current.section_key]
     );
     const translation = await require('../services/automatic-translations').syncSection(current.section_key);
-    res.json({ section: await db.getSection(current.section_key, undefined, 'en'), translation });
+    for(const slug of headerPages)await require('../services/automatic-translations').syncPage(slug);
+    res.json({ section: await db.getSection(current.section_key, undefined, 'en'), translation,...(current.section_key==='header'?{pages:await db.getPages('en'),sections:await db.getSections(null,'en')}:{}) });
   } catch (err) { next(err); }
 };
 

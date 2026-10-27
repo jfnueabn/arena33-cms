@@ -22,7 +22,7 @@ function groups(blocks,columns) {
     if(block.style?.column==='full') {group=null;index=0;result.push({full:true,columns:[[block]]});continue;}
     if(!group){group={full:false,columns:Array.from({length:columns},()=>[])};result.push(group);}
     const chosen=Number(block.style?.column);
-    group.columns[chosen>=1&&chosen<=columns?chosen-1:index++%columns].push(block);
+    group.columns[chosen>=1?Math.min(chosen,columns)-1:index++%columns].push(block);
   }
   return result;
 }

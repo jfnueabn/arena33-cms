@@ -756,7 +756,7 @@ function sectionLayoutEditor(content) {
   const change=(key,value)=>{settings[key]=value;};
   return h('div',{class:'panel'},h('h2',{},'Section layout & appearance'),h('div',{class:'grid2'},
     choiceInput('Background style',settings.variant,[['plain','Plain'],['hero','Hero gradient']],value=>change('variant',value)),
-    choiceInput('Columns',settings.columns,[[1,'1 column'],[2,'2 columns'],[3,'3 columns']],value=>{change('columns',Number(value));for(const block of content.blocks)if(Number(block.style?.column)>Number(value))block.style.column='auto';renderEditor();}),
+    choiceInput('Columns',settings.columns,[[1,'1 column'],[2,'2 columns'],[3,'3 columns']],value=>{change('columns',Number(value));renderEditor();}),
     choiceInput('Content width',settings.width,[['narrow','Narrow'],['standard','Standard'],['wide','Wide']],value=>change('width',value)),
     choiceInput('Section spacing',settings.padding,[['small','Small'],['normal','Normal'],['large','Large']],value=>change('padding',value)),
     choiceInput('Space between blocks',settings.gap,[['small','Small'],['normal','Normal'],['large','Large']],value=>change('gap',value)),
@@ -772,7 +772,7 @@ function blockStyleEditor(block,index,content) {
   const change=(key,value)=>{style[key]=value;block.style=style;};
   const columns=Number(content.layout?.columns||1);
   return h('details',{class:'block-style-settings'},h('summary',{},'Layout & style'),h('div',{class:'grid2'},
-    choiceInput('Block '+(index+1)+' placement',style.column,[['auto','Automatic'],...Array.from({length:columns},(_,i)=>[String(i+1),'Column '+(i+1)]),['full','Full-width row']],value=>change('column',value)),
+    choiceInput('Block '+(index+1)+' placement',style.column,[['auto','Automatic'],...Array.from({length:Math.max(columns,Number(style.column)||0)},(_,i)=>[String(i+1),'Column '+(i+1)+(i>=columns?' (when available)':'')]),['full','Full-width row']],value=>change('column',value)),
     choiceInput('Block alignment',style.align,[['left','Left'],['center','Center'],['right','Right']],value=>change('align',value)),
     choiceInput('Block width',style.width,[['full','Fill column'],['narrow','Narrow']],value=>change('width',value)),
     choiceInput('Text size',style.font_size,[['small','Small'],['normal','Normal'],['large','Large']],value=>change('font_size',value)),

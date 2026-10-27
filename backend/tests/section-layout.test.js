@@ -1,6 +1,14 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const layout=require('../services/section-layout');
+
+test('reducing columns preserves placement for restoring the wider layout',()=>{
+  const blocks=[{id:'text',style:{column:'1'}},{id:'visual',style:{column:'2'}},{id:'extra',style:{column:'3'}}];
+  assert.deepEqual(layout.groups(blocks,1)[0].columns.map(column=>column.map(block=>block.id)),[['text','visual','extra']]);
+  assert.deepEqual(layout.groups(blocks,2)[0].columns.map(column=>column.map(block=>block.id)),[['text'],['visual','extra']]);
+  assert.deepEqual(layout.groups(blocks,3)[0].columns.map(column=>column.map(block=>block.id)),[['text'],['visual'],['extra']]);
+  assert.deepEqual(blocks.map(block=>block.style.column),['1','2','3']);
+});
 test('layout options accept presets and reject arbitrary CSS or unsafe URLs',()=>{
   assert.equal(layout.validLayout(undefined),true);
   assert.equal(layout.validLayout({columns:3,background_color:'#aabbcc',background_image:'/images/demo.png'}),true);

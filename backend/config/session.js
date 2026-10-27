@@ -13,6 +13,6 @@ module.exports = function createSession(store) {
     store: store || new MySQLStore({ ...dbConfig.connection, database: dbConfig.dbName, createDatabaseTable: true }),
     resave: false,
     saveUninitialized: false,
-    cookie: { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', maxAge: 8 * 3600e3 }
+    cookie: { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', maxAge: 30 * 60e3 }
   });
 };
